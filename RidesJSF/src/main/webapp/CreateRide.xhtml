@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+<f:view>
+
+<h:head>
+	<title>Car Share by Braian</title>
+	<h:outputStylesheet library="css" name="createRide.css" />
+	<h:outputScript library="js" name="createZiur.js" />
+</h:head>
+
+<h:body>
+<h:form>
+	<h3>Create Ride</h3>
+	<div class="main-container">
+    <div class="container">
+
+        <div class="block">
+            
+            <table>
+                <tr>
+                    <td>Depart City</td>
+                    <td>
+                        <h:inputText id="depart" redisplay="true" value="#{create.bidaiNondik}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Arrival City</td>
+                    <td>
+                        <h:inputText id="arrival" redisplay="true" value="#{create.bidaiNora}">
+                        </h:inputText>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Number of Seats</td>
+                    <td>
+                        <h:inputText id="seats" redisplay="true" value="#{create.eserlekuKop}">
+                        	<f:convertNumber />
+				            <f:validateLongRange minimum="1"/>
+                        </h:inputText>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Price</td>
+                    <td>
+                        <h:inputText id="price" redisplay="true" value="#{create.prezioa}">
+                        	<f:convertNumber />
+				            <f:validateLongRange minimum="0"/>
+                        </h:inputText>
+                    </td>
+                </tr>
+                <tr>
+                	<td><h:message for="seats" style="color:red" /></td>
+                </tr>
+                <tr>
+                	<td><h:message for="price" style="color:red" /></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="block">
+            <h4>Ride date</h4>
+            <p:calendar id="data" value="#{create.data}" navigator="true" mode="inline">
+                <p:ajax event="dateSelect" listener="#{create.onDateSelect}"
+                update="mezuak"></p:ajax>
+            </p:calendar>
+            <h:messages id="mezuak" style="color:blue" globalOnly="true"/>
+        </div>
+    </div>
+
+    <div class="block-center">
+        <table>
+            <tr>
+                <td><h:commandButton class='btn' value="Create Ride" action="#{create.creator}">
+                <!--  <f:ajax render="mezu"></f:ajax>-->
+            	</h:commandButton></td>
+            	<td><h:commandButton class='btn' value="Close" action="return"/></td>
+            </tr>
+            <tr>
+            	<td><h:messages id="mezu" style="color:blue" globalOnly="true"/></td>
+            </tr>
+        </table>
+    </div>
+	</div>
+</h:form>
+</h:body>
+</f:view>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+      
+<f:view>
+<h:head>
+	<title>Car Share by Braian</title>
+</h:head>
+
+<h:body>
+<h:form>
+<h3>Find Rides</h3>
+
+<tr>
+<td>Depart City</td>
+<td>
+<h:inputText id="depart" redisplay="true" value="">
+<f:validateLongRange minimum="1" maximum="500" />
+</h:inputText>
+</td>
+</tr>
+
+<tr>
+<td>Arrival City</td>
+<td>
+<h:inputText id="arrival" redisplay="true" value="">
+<f:validateLongRange minimum="1" maximum="500" />
+</h:inputText>
+</td>
+</tr>
+
+<tr>
+<td>Ride date</td>
+<td><p:calendar id="data" value="#{query.data}" navigator="false" mode="inline">
+<p:ajax event="dateSelect" listener="#{query.onDateSelect}"
+update="mezuak"></p:ajax>
+</p:calendar></td>
+</tr>
+<h:messages id="mezuak" style="color:blue"/>
+
+<tr>
+<td><h3>Depart City</h3></td>
+<td><h:selectOneMenu value="#{query.mota}">>
+<f:selectItems value="#{query.motak}"/>
+</h:selectOneMenu></td>
+</tr>
+
+<tr>
+<td><h:commandButton class='btn' value="Close" action="return"/></td>
+</tr>
+</h:form>
+</h:body>
+
+</f:view>
+</html>

@@ -1,0 +1,47 @@
+@charset "UTF-8";
+
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center; /* Centra el contenedor principal horizontalmente */
+    align-items: center;    /* Centra el contenedor principal verticalmente */
+    height: 100vh;
+    margin: 0; /* Fondo de la página */
+}
+
+.main-container {
+    background-color: #f0f0f0; /* Fondo del cuadro principal */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
+}
+
+.container {
+    display: flex;  /* Usamos flexbox para alinear los bloques en línea */
+    flex-wrap: wrap;  /* Permite que los bloques se envuelvan en pantallas pequeñas */
+    justify-content: center;  /* Alinea los bloques horizontalmente en el centro */
+    width: 100%;  /* El contenedor ocupa el 100% del cuadro principal */
+    gap: 10px;  /* Espacio entre los bloques */
+}
+
+.block {
+    flex: 1 1 45%;  /* Cada bloque ocupa el 45% del contenedor, lo que permite dos bloques por fila */
+    margin: 10px;  /* Margen alrededor de los bloques */
+    padding: 20px;
+    text-align: justify;
+    box-sizing: border-box;  /* Asegura que el padding y los márgenes no excedan el tamaño del bloque */
+}
+
+.block-center {
+    width: 100%;  /* El tercer bloque ocupará toda la línea */
+    padding: 20px;
+    margin-top: 20px;
+    text-align: center; /* Cambiado de justify a center */
+    box-sizing: border-box;  /* Asegura que el padding y márgenes no afecten el tamaño */
+
+    display: flex; /* Habilita Flexbox */
+    justify-content: center; /* Centra horizontalmente los botones */
+    align-items: center; /* Centra verticalmente los botones */
+    gap: 10px; /* Espaciado entre los botones */
+}

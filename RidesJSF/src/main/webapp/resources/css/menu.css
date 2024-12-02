@@ -1,0 +1,22 @@
+@charset "UTF-8";
+
+h3{
+	
+}
+
+table {
+	display: flex;
+}
+
+td {
+	align-items: center;
+}
+
+.btn {
+	background-color: #ff6740;
+	color: white;
+	border-radius: 5px;
+	padding: 10px 20px;
+	margin-top: 10px;
+	border: none;
+}
