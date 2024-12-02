@@ -16,20 +16,16 @@
 
 <tr>
 <td>Depart City</td>
-<td>
-<h:inputText id="depart" redisplay="true" value="">
-<f:validateLongRange minimum="1" maximum="500" />
-</h:inputText>
-</td>
+<td><h:selectOneMenu value="#{query.mota}">
+<f:selectItems value="#{query.motak}"/>
+</h:selectOneMenu></td>
 </tr>
 
 <tr>
 <td>Arrival City</td>
-<td>
-<h:inputText id="arrival" redisplay="true" value="">
-<f:validateLongRange minimum="1" maximum="500" />
-</h:inputText>
-</td>
+<td><h:selectOneMenu value="#{query.mota}">
+<f:selectItems value="#{query.motak}"/>
+</h:selectOneMenu></td>
 </tr>
 
 <tr>
@@ -42,14 +38,9 @@ update="mezuak"></p:ajax>
 <h:messages id="mezuak" style="color:blue"/>
 
 <tr>
-<td><h3>Depart City</h3></td>
-<td><h:selectOneMenu value="#{query.mota}">
-<f:selectItems value="#{query.motak}"/>
-</h:selectOneMenu></td>
-</tr>
+<td><h:commandButton class="btn" value="Close" action="return" immediate="true" />
 
-<tr>
-<td><h:commandButton class='btn' value="Close" action="return"/></td>
+</td>
 </tr>
 </h:form>
 </h:body>
