@@ -3,6 +3,11 @@ package eredua.bean;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+
+import org.primefaces.event.SelectEvent;
 /**
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -13,29 +18,29 @@ public class QueryBean {
 	private String izena;
 	private String pasahitza;
 	private Date data;
-	private Bidaia mota;
-	private static List<Bidaia> motak=new ArrayList<Bidaia>();
+	private BidaiAukerak mota;
+	private static List<BidaiAukerak> motak=new ArrayList<BidaiAukerak>();
 	
 	public QueryBean() {
-		 motak.add(new Bidaia(1,"Bilbo"));
-		 motak.add(new Bidaia(2,"Donostia"));
-		 motak.add(new Bidaia(3,"Eibar"));
-		}
+		 motak.add(new BidaiAukerak(1,"Bilbo"));
+		 motak.add(new BidaiAukerak(2,"Donostia"));
+		 motak.add(new BidaiAukerak(3,"Eibar"));
+	}
 	
-	public Bidaia getMota() {
+	public BidaiAukerak getMota() {
 		return mota;
 	}
 	
-	public void setMota(Bidaia mota) {
+	public void setMota(BidaiAukerak mota) {
 		this.mota = mota;
-		System.out.println("Erabiltzailearen mota: "+mota.getKodea()+"/"+mota.getBidaiNondik());
+		System.out.println("Bidai aukera: "+mota.getKodea()+"/"+mota.getBidaiNondik());
 	}
 	
-	public List<Bidaia> getMotak() {
+	public List<BidaiAukerak> getMotak() {
 		return motak;
 	}
 	
-	public void setMotak(List<Bidaia> motak) {
+	public void setMotak(List<BidaiAukerak> motak) {
 		this.motak = motak;
 	}
 		
@@ -58,16 +63,16 @@ public class QueryBean {
 	public Date getData() {
 		return data;
 		}
-/**	
+
 	public void onDateSelect(SelectEvent event) {
 		FacesContext.getCurrentInstance().addMessage(null,
 		 new FacesMessage("Data aukeratua: "+event.getObject()));
 	}
 	
-	public static Bidaia getObject(String mota) {
-		for (Bidaia m: motak){
+	public static BidaiAukerak getObject(String mota) {
+		for (BidaiAukerak m: motak){
 		if (mota.equals(m.getBidaiNondik()))
 		return m;}
 		return null; 
-	}**/
+	}
 }

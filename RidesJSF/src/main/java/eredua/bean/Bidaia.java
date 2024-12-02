@@ -7,7 +7,6 @@ public class Bidaia {
 	private String bidaiNora;
 	private int eserlekuKop;
 	private int prezioa;
-	private int kodea;
 	private Date data;
 	
 	public Bidaia(String bidaiNondik, String bidaiNora, int eserlekuKop, int prezioa, Date data) {
@@ -44,13 +43,6 @@ public class Bidaia {
 	}
 	public void setprezioa(int prezioa) {
 		this.prezioa = prezioa;
-	}
-	
-	public int getKodea() {
-		return kodea;
-	}
-	public void setKodea(int kodea) {
-		this.kodea = kodea;
 	}
 	
 	public String toString(){
