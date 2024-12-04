@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.event.AjaxBehaviorEvent;
 
 import org.primefaces.event.SelectEvent;
 /**
@@ -20,6 +21,7 @@ public class QueryBean {
 	private Date data;
 	private BidaiAukerak mota;
 	private static List<BidaiAukerak> motak=new ArrayList<BidaiAukerak>();
+	private static List<BidaiAukerak> motakBaldintzatua=new ArrayList<BidaiAukerak>();
 	
 	public QueryBean() {
 		 motak.add(new BidaiAukerak(1,"Bilbo"));
@@ -75,4 +77,17 @@ public class QueryBean {
 		return m;}
 		return null; 
 	}
+
+	public List<BidaiAukerak> getMotakBaldintzatua() {
+		return motakBaldintzatua;
+	}
+
+	public void setMotakBaldintzatua(List<BidaiAukerak> motakBaldintzatua) {
+		this.motakBaldintzatua = motakBaldintzatua;
+	}
+	
+	public void listener(AjaxBehaviorEvent event) {
+		FacesContext.getCurrentInstance().addMessage(null,
+		new FacesMessage("Erabiltzailearen mota:"+mota.getKodea()+"/"+mota.getBidaiNondik()));
+		}
 }

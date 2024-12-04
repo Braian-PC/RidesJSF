@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" name="return" comment="" id="pf17321335742986" configfile="/RidesJSF/src/main/webapp/WEB-INF/faces-config.xml">
-  <nodes xsi:type="pageflow:PFPage" name="Menu.xhtml" x="80" y="193" id="pf17321339475107" referenceLink="//@navigationRule.1/@fromViewId|" outlinks="pf17321339475108 pf17321339475109" inlinks="pf17328676694470 pf17328676694481" path="/Menu.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="CreateRide.xhtml" x="301" y="84" id="pf173213394751010" referenceLink="//@navigationRule.0/@navigationCase.0/@toViewId|" outlinks="pf17328676694470" inlinks="pf17321339475108" path="/CreateRide.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="QueryRides.xhtml" x="300" y="263" id="pf173213394751011" referenceLink="//@navigationRule.1/@navigationCase.0/@toViewId|" outlinks="pf17328676694481" inlinks="pf17321339475109" path="/QueryRides.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Menu.xhtml" x="80" y="193" id="pf17321339475107" referenceLink="//@navigationRule.3/@navigationCase.0/@toViewId|" outlinks="pf17321339475108 pf17321339475109" inlinks="pf17328676694470 pf17328676694481" path="/Menu.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="CreateRide.xhtml" x="301" y="84" id="pf173213394751010" referenceLink="//@navigationRule.2/@fromViewId|" outlinks="pf17328676694470" inlinks="pf17321339475108" path="/CreateRide.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="QueryRides.xhtml" x="300" y="263" id="pf173213394751011" referenceLink="//@navigationRule.3/@fromViewId|" outlinks="pf17328676694481" inlinks="pf17321339475109" path="/QueryRides.xhtml"/>
   <links id="pf17321339475108" target="pf173213394751010" source="pf17321339475107" outcome="create"/>
   <links id="pf17321339475109" target="pf173213394751011" source="pf17321339475107" outcome="query"/>
   <links id="pf17328676694470" target="pf17321339475107" source="pf173213394751010" outcome="return"/>

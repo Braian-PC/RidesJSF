@@ -8,40 +8,80 @@
 <f:view>
 <h:head>
 	<title>Car Share by Braian</title>
+	<h:outputStylesheet library="css" name="queryRides.css" />
 </h:head>
 
 <h:body>
 <h:form>
-<h3>Find Rides</h3>
+	<h3>Find Rides</h3>
 
-<tr>
-<td>Depart City</td>
-<td><h:selectOneMenu value="#{query.mota}">
-<f:selectItems value="#{query.motak}"/>
-</h:selectOneMenu></td>
-</tr>
-
-<tr>
-<td>Arrival City</td>
-<td><h:selectOneMenu value="#{query.mota}">
-<f:selectItems value="#{query.motak}"/>
-</h:selectOneMenu></td>
-</tr>
-
-<tr>
-<td>Ride date</td>
-<td><p:calendar id="data" value="#{query.data}" navigator="false" mode="inline">
-<p:ajax event="dateSelect" listener="#{query.onDateSelect}"
-update="mezuak"></p:ajax>
-</p:calendar></td>
-</tr>
-<h:messages id="mezuak" style="color:blue"/>
-
-<tr>
-<td><h:commandButton class="btn" value="Close" action="return" immediate="true" />
-
-</td>
-</tr>
+	<div class="main-container">
+		<div class="container">
+			<div class="block">
+				<table>
+					<tr>
+						<td>Depart City</td>
+						<td>
+							<h:selectOneMenu value="#{query.mota}">
+								<f:converter converterId="BidaiaConverter"/>
+								<f:selectItems value="#{query.motak}"/>
+								<f:ajax event="change" listener="#{query.listener}" render="mezuak"/>
+							</h:selectOneMenu>
+						</td>
+					</tr>
+					<tr>
+						<td>Arrival City</td>
+						<td>
+							<h:selectOneMenu value="#{query.mota}">
+								<f:selectItems value="#{query.motak}"/>
+							</h:selectOneMenu>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<div class="block">
+				<table>
+					<tr>
+						<td>
+							<h4>Ride date</h4>
+							<p:calendar id="data" value="#{query.data}" navigator="false" mode="inline">
+								<p:ajax event="dateSelect" listener="#{query.onDateSelect}" update="mezuak"/>
+							</p:calendar>
+						</td>
+					</tr>
+					<tr>
+						<td><h:messages id="mezuak" style="color:blue"/></td>
+					</tr>
+				</table>
+			</div>
+			<div class="block-center">
+				<table>
+		            
+		            <tr>
+		            	<td><h:messages id="mezu" style="color:blue" globalOnly="true"/></td>
+		            </tr>
+		            <tr>
+		            	<td>
+		            		<h4>Bidaiak</h4>
+		            		<h:dataTable id="taula" value="#{query.motak}" var="item" border="1">
+								<h:column>
+									<f:facet name="header">Kodea</f:facet>
+									#{item.kodea}
+								</h:column>
+								<h:column>
+									<f:facet name="header">Bidai Nondik</f:facet>
+									#{item.bidaiNondik}
+								</h:column>
+							</h:dataTable>
+		            	</td>
+		            </tr>
+		            <tr>
+		                <td><h:commandButton class="btn" value="Close" action="return" immediate="true" /></td>
+		            </tr>
+	        	</table>
+   			</div>
+   		</div>
+   	</div>
 </h:form>
 </h:body>
 

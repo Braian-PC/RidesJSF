@@ -3,9 +3,10 @@ package eredua.bean;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
+import javax.faces.convert.ConverterException;
 import javax.faces.convert.FacesConverter;
 
-@FacesConverter("bidaiaConverter")  // Usa un identificador único
+@FacesConverter("BidaiaConverter")  // Usa un identificador único
 public class BidaiaConverter implements Converter {
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {

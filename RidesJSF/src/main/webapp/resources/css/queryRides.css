@@ -1,9 +1,5 @@
 @charset "UTF-8";
 
-h3{
-	text-align: center;
-}
-
 body {
     font-family: Arial, sans-serif;
     display: flex;
@@ -21,8 +17,24 @@ body {
     box-sizing: border-box;
 }
 
-table{
-	width: 100%;  /* El tercer bloque ocupará toda la línea */
+.container {
+    display: flex;  /* Usamos flexbox para alinear los bloques en línea */
+    flex-wrap: wrap;  /* Permite que los bloques se envuelvan en pantallas pequeñas */
+    justify-content: center;  /* Alinea los bloques horizontalmente en el centro */
+    width: 100%;  /* El contenedor ocupa el 100% del cuadro principal */
+    gap: 10px;  /* Espacio entre los bloques */
+}
+
+.block {
+    flex: 1 1 45%;  /* Cada bloque ocupa el 45% del contenedor, lo que permite dos bloques por fila */
+    margin: 10px;  /* Margen alrededor de los bloques */
+    padding: 20px;
+    text-align: justify;
+    box-sizing: border-box;  /* Asegura que el padding y los márgenes no excedan el tamaño del bloque */
+}
+
+.block-center {
+    width: 100%;  /* El tercer bloque ocupará toda la línea */
     padding: 20px;
     margin-top: 20px;
     text-align: center; /* Cambiado de justify a center */
@@ -31,5 +43,5 @@ table{
     display: flex; /* Habilita Flexbox */
     justify-content: center; /* Centra horizontalmente los botones */
     align-items: center; /* Centra verticalmente los botones */
-    gap: 10px;
+    gap: 10px; /* Espaciado entre los botones */
 }

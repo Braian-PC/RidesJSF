@@ -49,8 +49,8 @@ http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd"
 		</navigation-case>
 	</navigation-rule>
 	<converter>
-		<description>omnifaces.BidaiaConverter faces-config.xml-n definitua</description>
-		<converter-id>omnifaces.BidaiaConverter</converter-id>
+		<description>BidaiaConverter faces-config.xml-n definitua</description>
+		<converter-id>BidaiaConverter</converter-id>
 		<converter-class>eredua.bean.BidaiaConverter</converter-class>
 	</converter>
 </faces-config>
