@@ -25,15 +25,15 @@
 							<h:selectOneMenu value="#{query.mota}">
 								<f:converter converterId="BidaiaConverter"/>
 								<f:selectItems value="#{query.motak}"/>
-								<f:ajax event="change" listener="#{query.listener}" render="mezuak"/>
+								<f:ajax event="change" listener="#{query.listener}" render="arrivalCity"/>
 							</h:selectOneMenu>
 						</td>
 					</tr>
 					<tr>
 						<td>Arrival City</td>
 						<td>
-							<h:selectOneMenu value="#{query.mota}">
-								<f:selectItems value="#{query.motak}"/>
+							<h:selectOneMenu value="#{query.mota}" id="arrivalCity">
+								<f:selectItems value="#{query.motakBaldintzatua}" />
 							</h:selectOneMenu>
 						</td>
 					</tr>
@@ -74,13 +74,13 @@
 								</h:column>
 							</h:dataTable>
 		            	</td>
-		            	<td><p:dataTable id="taulaPF" value="#{login.motak}" var="item" selectionMode="single" selection="#{login.mota}" border="1" rowKey="#{item.kodea}">
-							<p:ajax event="rowSelect" listener="#{login.onEventSelect}" update=":nireForm:aukeratua :nireForm:mezuak"></p:ajax>
+		            	<td><p:dataTable id="taulaPF" value="#{query.motak}" var="item" selectionMode="single" selection="#{query.mota}" border="1" rowKey="#{item.kodea}">
+							<p:ajax event="rowSelect" listener="#{query.onEventSelect}" update=":nireForm:aukeratua :nireForm:mezuak"></p:ajax>
 							<f:facet name="header">Erabiltzaileen motak:</f:facet>
 							<p:column headerText="Kodea">#{item.kodea}</p:column>
-							<p:column headerText="Mota">#{item.erabMota}</p:column>
+							<p:column headerText="Mota">#{item.bidaiNondik}</p:column>
 							</p:dataTable></td>
-							<td><h:outputText id="aukeratua" value="#{login.mota}" style="color:red" /></td>
+							<td><h:outputText id="aukeratua" value="#{query.mota}" style="color:red" /></td>
 							
 		            	<td>
 		            		<h:selectOneMenu id="zerrenda" value="#{query.mota}">

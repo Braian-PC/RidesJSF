@@ -20,13 +20,11 @@ public class QueryBean {
 	private String pasahitza;
 	private Date data;
 	private BidaiAukerak mota;
+	private int kodeAukeratua = 3;
 	private static List<BidaiAukerak> motak=new ArrayList<BidaiAukerak>();
 	private static List<BidaiAukerak> motakBaldintzatua=new ArrayList<BidaiAukerak>();
 	
 	public QueryBean() {
-		 motak.add(new BidaiAukerak(1,"Bilbo"));
-		 motak.add(new BidaiAukerak(2,"Donostia"));
-		 motak.add(new BidaiAukerak(3,"Eibar"));
 	}
 	
 	public BidaiAukerak getMota() {
@@ -39,6 +37,10 @@ public class QueryBean {
 	}
 	
 	public List<BidaiAukerak> getMotak() {
+		motak = new ArrayList<BidaiAukerak>();
+		motak.add(new BidaiAukerak(1, "Bilbo"));
+		motak.add(new BidaiAukerak(2, "Donosti"));
+		motak.add(new BidaiAukerak(3,"Eibar"));
 		return motak;
 	}
 	
@@ -79,6 +81,19 @@ public class QueryBean {
 	}
 
 	public List<BidaiAukerak> getMotakBaldintzatua() {
+		motakBaldintzatua = new ArrayList<BidaiAukerak>();
+		
+		if(kodeAukeratua == 1) {
+			motakBaldintzatua.add(new BidaiAukerak(2,"Donostia"));
+		}
+		else if(kodeAukeratua == 2) {
+			motakBaldintzatua.add(new BidaiAukerak(1,"Bilbo"));
+			motakBaldintzatua.add(new BidaiAukerak(4,"Gasteiz"));
+			motakBaldintzatua.add(new BidaiAukerak(5,"Iruña"));
+		}
+		else {
+			motakBaldintzatua.add(new BidaiAukerak(4,"Gasteiz"));
+		}
 		return motakBaldintzatua;
 	}
 
@@ -89,6 +104,7 @@ public class QueryBean {
 	public void listener(AjaxBehaviorEvent event) {
 		FacesContext.getCurrentInstance().addMessage(null,
 		new FacesMessage("Erabiltzailearen mota:"+mota.getKodea()+"/"+mota.getBidaiNondik()));
+		kodeAukeratua = mota.getKodea();
 		}
 	
 	public void onEventSelect(SelectEvent event) {
