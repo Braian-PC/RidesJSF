@@ -73,8 +73,8 @@ public class QueryBean {
 	
 	public static BidaiAukerak getObject(String mota) {
 		for (BidaiAukerak m: motak){
-		if (mota.equals(m.getBidaiNondik()))
-		return m;}
+			if (mota.equals(m.getBidaiNondik())) return m;
+		}
 		return null; 
 	}
 
@@ -90,4 +90,10 @@ public class QueryBean {
 		FacesContext.getCurrentInstance().addMessage(null,
 		new FacesMessage("Erabiltzailearen mota:"+mota.getKodea()+"/"+mota.getBidaiNondik()));
 		}
+	
+	public void onEventSelect(SelectEvent event) {
+		this.mota=(BidaiAukerak)event.getObject();
+		// Egia esan, selection="#{login.mota}" atributuarekin ere lortzen da
+		FacesContext.getCurrentInstance().addMessage("nireForm:mezuak",
+		new FacesMessage("Erabiltzailearen mota (taula):"+mota.getKodea()+"/"+mota.getBidaiNondik()));}
 }

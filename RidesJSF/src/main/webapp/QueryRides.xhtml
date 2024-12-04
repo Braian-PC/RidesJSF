@@ -12,7 +12,7 @@
 </h:head>
 
 <h:body>
-<h:form>
+<h:form id="nireForm">
 	<h3>Find Rides</h3>
 
 	<div class="main-container">
@@ -73,6 +73,20 @@
 									#{item.bidaiNondik}
 								</h:column>
 							</h:dataTable>
+		            	</td>
+		            	<td><p:dataTable id="taulaPF" value="#{login.motak}" var="item" selectionMode="single" selection="#{login.mota}" border="1" rowKey="#{item.kodea}">
+							<p:ajax event="rowSelect" listener="#{login.onEventSelect}" update=":nireForm:aukeratua :nireForm:mezuak"></p:ajax>
+							<f:facet name="header">Erabiltzaileen motak:</f:facet>
+							<p:column headerText="Kodea">#{item.kodea}</p:column>
+							<p:column headerText="Mota">#{item.erabMota}</p:column>
+							</p:dataTable></td>
+							<td><h:outputText id="aukeratua" value="#{login.mota}" style="color:red" /></td>
+							
+		            	<td>
+		            		<h:selectOneMenu id="zerrenda" value="#{query.mota}">
+							<f:selectItems value="#{query.motak}"/>
+							<f:ajax event="change" listener="#{query.listener}" render="mezuak aukeratua taulaPF"/>
+							</h:selectOneMenu>
 		            	</td>
 		            </tr>
 		            <tr>
