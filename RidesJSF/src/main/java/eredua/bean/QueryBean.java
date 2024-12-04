@@ -111,5 +111,27 @@ public class QueryBean {
 		this.mota=(BidaiAukerak)event.getObject();
 		// Egia esan, selection="#{login.mota}" atributuarekin ere lortzen da
 		FacesContext.getCurrentInstance().addMessage("nireForm:mezuak",
-		new FacesMessage("Erabiltzailearen mota (taula):"+mota.getKodea()+"/"+mota.getBidaiNondik()));}
+		new FacesMessage("Erabiltzailearen mota (taula):"+mota.getKodea()+"/"+mota.getBidaiNondik()));
+		}
+	
+	public String toStringBidaiList() {
+		CreateBean c = new CreateBean();
+		String emaitza = c.getBidaiak().toString();
+		return emaitza;
+	}
+	
+	public void agregarMensaje() {
+        FacesMessage message = new FacesMessage("Mensaje del Bean: ", toStringBidaiList());
+        FacesContext.getCurrentInstance().addMessage(null, message);
+    }
+	/**
+	 *     public String toStringList() {
+        // Convierte la lista a una cadena
+        StringBuilder sb = new StringBuilder();
+        for (String dato : getListaDatos()) {
+            sb.append(dato).append("\n"); // Cada dato en una nueva línea
+        }
+        return sb.toString();
+    }
+	 */
 }

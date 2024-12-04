@@ -3,18 +3,24 @@ package eredua.bean;
 import java.util.Date;
 
 public class Bidaia {
+	private String driver;
 	private String bidaiNondik;
 	private String bidaiNora;
 	private int eserlekuKop;
 	private int prezioa;
 	private Date data;
 	
-	public Bidaia(String bidaiNondik, String bidaiNora, int eserlekuKop, int prezioa, Date data) {
+	public Bidaia(String driver,String bidaiNondik, String bidaiNora, int eserlekuKop, int prezioa, Date data) {
+		this.driver = driver;
 		this.bidaiNondik=bidaiNondik;
 		this.bidaiNora=bidaiNora;
 		this.eserlekuKop=eserlekuKop;
 		this.prezioa=prezioa;
 		this.data=data;
+	}
+	
+	public Bidaia(String bidaiNondik, String bidaiNora, int eserlekuKop, int prezioa, Date data) {
+		this("Anonymous", bidaiNondik, bidaiNora, eserlekuKop, prezioa, data);
 	}
 	
 	public String getBidaiNondik() {
@@ -47,5 +53,13 @@ public class Bidaia {
 	
 	public String toString(){
 		return bidaiNondik + ", " + bidaiNora + ", " + eserlekuKop + ", " + prezioa + ", " + data;
+	}
+
+	public String getDriver() {
+		return driver;
+	}
+
+	public void setDriver(String driver) {
+		this.driver = driver;
 	}
 }

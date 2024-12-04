@@ -18,8 +18,12 @@ public class CreateBean {
 	private Date data;
 	
 	public CreateBean() {
-		//Bidaiak.add(new Bidaia(1,"Donostia"));
-		//Bidaiak.add(new Bidaia(2,"Eibar"));
+		Bidaiak.add(new Bidaia("Braian", "Donostia", "Gasteiz", 12, 12, new Date(05/12/24)));
+		Bidaiak.add(new Bidaia("Bilbo", "Donostia", 13, 13, new Date(15/12/24)));
+	}
+	
+	public ArrayList<Bidaia> getBidaiak(){
+		return Bidaiak;
 	}
 	
 	public String getBidaiNondik() {
