@@ -52,7 +52,7 @@ public class Bidaia {
 	}
 	
 	public String toString(){
-		return bidaiNondik + ", " + bidaiNora + ", " + eserlekuKop + ", " + prezioa + ", " + data;
+		return driver + ", " + bidaiNondik + ", " + bidaiNora + ", " + eserlekuKop + ", " + prezioa + ", " + data;
 	}
 
 	public String getDriver() {

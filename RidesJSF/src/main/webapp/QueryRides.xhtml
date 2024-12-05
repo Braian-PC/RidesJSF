@@ -58,7 +58,7 @@
 				<table>
 		            
 		            <tr>
-		            	<td>Hola<h:outputText value="#{query.toStringBidaiList()}" id="resultado" />que tal?</td>
+		            	<td><h:outputText value="#{query.toStringBidaiList()}" id="resultado" /></td>
 		            </tr>
 		            <tr>
 		            	<td>
@@ -74,11 +74,12 @@
 								</h:column>
 							</h:dataTable>
 		            	</td>
-		            	<td><p:dataTable id="taulaPF" value="#{query.motak}" var="item" selectionMode="single" selection="#{query.mota}" border="1" rowKey="#{item.kodea}">
+		            	<td><p:dataTable id="taulaPF" value="#{query.getBidaiak()}" var="item" selectionMode="single" selection="#{query.bidaia}" border="1" rowKey="#{item.driver}">
 							<p:ajax event="rowSelect" listener="#{query.onEventSelect}" update=":nireForm:aukeratua :nireForm:mezuak"></p:ajax>
-							<f:facet name="header">Erabiltzaileen motak:</f:facet>
-							<p:column headerText="Kodea">#{item.kodea}</p:column>
-							<p:column headerText="Mota">#{item.bidaiNondik}</p:column>
+							<f:facet name="header">Rides:</f:facet>
+							<p:column headerText="Driver">#{item.driver}</p:column>
+							<p:column headerText="Seats">#{item.eserlekuKop}</p:column>
+							<p:column headerText="Price">#{item.prezioa}</p:column>
 							</p:dataTable></td>
 							<td><h:outputText id="aukeratua" value="#{query.mota}" style="color:red" /></td>
 							

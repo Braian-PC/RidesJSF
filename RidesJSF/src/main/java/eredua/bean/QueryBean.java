@@ -16,15 +16,21 @@ import javax.faces.context.FacesContext;
 import org.primefaces.event.SelectEvent;**/
 
 public class QueryBean {
-	private String izena;
-	private String pasahitza;
+	private String driver;
+	private String bidaiNondik;
+	private String bidaiNora;
+	private int eserlekuKop;
+	private int prezioa;
 	private Date data;
 	private BidaiAukerak mota;
 	private int kodeAukeratua = 3;
+	private Bidaia bidaia;
 	private static List<BidaiAukerak> motak=new ArrayList<BidaiAukerak>();
 	private static List<BidaiAukerak> motakBaldintzatua=new ArrayList<BidaiAukerak>();
+	CreateBean lortuBidaia;
 	
 	public QueryBean() {
+		lortuBidaia = new CreateBean();
 	}
 	
 	public BidaiAukerak getMota() {
@@ -46,22 +52,6 @@ public class QueryBean {
 	
 	public void setMotak(List<BidaiAukerak> motak) {
 		this.motak = motak;
-	}
-		
-	public String getIzena() {
-		return izena;
-	}
-	public void setIzena(String izena) {
-		this.izena = izena;
-	}
-	public void setData(Date data) {
-		this.data = data;
-		}
-	public String getPasahitza() {
-		return pasahitza;
-	}
-	public void setPasahitza(String pasahitza) {
-		this. pasahitza = pasahitza;
 	}
 	
 	public Date getData() {
@@ -114,9 +104,12 @@ public class QueryBean {
 		new FacesMessage("Erabiltzailearen mota (taula):"+mota.getKodea()+"/"+mota.getBidaiNondik()));
 		}
 	
+	public ArrayList<Bidaia> getBidaiak(){
+		return lortuBidaia.getBidaiak();
+	}
+	
 	public String toStringBidaiList() {
-		CreateBean c = new CreateBean();
-		String emaitza = c.getBidaiak().toString();
+		String emaitza = lortuBidaia.toString();
 		return emaitza;
 	}
 	
@@ -134,4 +127,52 @@ public class QueryBean {
         return sb.toString();
     }
 	 */
+
+	public String getBidaiNondik() {
+		return bidaiNondik;
+	}
+
+	public void setBidaiNondik(String bidaiNondik) {
+		this.bidaiNondik = bidaiNondik;
+	}
+
+	public String getBidaiNora() {
+		return bidaiNora;
+	}
+
+	public void setBidaiNora(String bidaiNora) {
+		this.bidaiNora = bidaiNora;
+	}
+
+	public int getEserlekuKop() {
+		return eserlekuKop;
+	}
+
+	public void setEserlekuKop(int eserlekuKop) {
+		this.eserlekuKop = eserlekuKop;
+	}
+
+	public int getPrezioa() {
+		return prezioa;
+	}
+
+	public void setPrezioa(int prezioa) {
+		this.prezioa = prezioa;
+	}
+
+	public Bidaia getBidaia() {
+		return bidaia;
+	}
+
+	public void setBidaia(Bidaia b) {
+		this.bidaia = b;
+	}
+
+	public String getDriver() {
+		return driver;
+	}
+
+	public void setDriver(String driver) {
+		this.driver = driver;
+	}
 }

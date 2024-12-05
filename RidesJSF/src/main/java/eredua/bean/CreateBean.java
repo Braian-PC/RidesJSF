@@ -10,11 +10,11 @@ import org.primefaces.event.SelectEvent;
 
 public class CreateBean {
 	private ArrayList<Bidaia> Bidaiak = new ArrayList<Bidaia>();
+	private int kodea;
 	private String bidaiNondik;
 	private String bidaiNora;
 	private int eserlekuKop;
 	private int prezioa;
-	private int kodea;
 	private Date data;
 	
 	public CreateBean() {
