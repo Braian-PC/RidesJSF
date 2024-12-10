@@ -44,13 +44,13 @@
 					<tr>
 						<td>
 							<h4>Ride date</h4>
-							<p:calendar id="data" value="#{query.data}" navigator="false" mode="inline">
-								<p:ajax event="dateSelect" listener="#{query.onDateSelect}" update="mezuak"/>
+							<p:calendar id="data" value="#{query.data}" navigator="true" mode="inline">
+								<p:ajax event="dateSelect" listener="#{query.bidaiakLortu}" update="taulaPF mezuak"/>
 							</p:calendar>
 						</td>
 					</tr>
 					<tr>
-						<td><h:messages id="mezuak" style="color:blue"/></td>
+						<td><h:messages id="mezuak" style="color:blue" /></td>
 					</tr>
 				</table>
 			</div>
@@ -58,30 +58,19 @@
 				<table>
 		            
 		            <tr>
-		            	<td><h:outputText value="#{query.toStringBidaiList()}" id="resultado" /></td>
+		            	<td><h:outputText value="" id="resultado" /></td>
+		            	
 		            </tr>
 		            <tr>
-		            	<td>
-		            		<h4>Bidaiak</h4>
-		            		<h:dataTable id="taula" value="#{query.motak}" var="item" border="1">
-								<h:column>
-									<f:facet name="header">Kodea</f:facet>
-									#{item.kodea}
-								</h:column>
-								<h:column>
-									<f:facet name="header">Bidai Nondik</f:facet>
-									#{item.bidaiNondik}
-								</h:column>
-							</h:dataTable>
-		            	</td>
-		            	<td><p:dataTable id="taulaPF" value="#{query.getBidaiak()}" var="item" selectionMode="single" selection="#{query.bidaia}" border="1" rowKey="#{item.driver}">
+		            	<td><p:dataTable id="taulaPF" value="#{query.bidaiak}" var="item" selectionMode="single" selection="#{query.bidaiaR}" border="1" rowKey="#{item.rideNumber}" emptyMessage="No rides">
 							<p:ajax event="rowSelect" listener="#{query.onEventSelect}" update=":nireForm:aukeratua :nireForm:mezuak"></p:ajax>
 							<f:facet name="header">Rides:</f:facet>
 							<p:column headerText="Driver">#{item.driver}</p:column>
-							<p:column headerText="Seats">#{item.eserlekuKop}</p:column>
-							<p:column headerText="Price">#{item.prezioa}</p:column>
+							<p:column headerText="Seats">#{item.nPlaces}</p:column>
+							<p:column headerText="Price">#{item.price}</p:column>
 							</p:dataTable></td>
-							<td><h:outputText id="aukeratua" value="#{query.mota}" style="color:red" /></td>
+							<td><h:outputText id="aukeratua" value="#{query.mota}" style="color:red" />
+						</td>
 							
 		            	<td>
 		            		<h:selectOneMenu id="zerrenda" value="#{query.mota}">
