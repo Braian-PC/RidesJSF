@@ -15,6 +15,7 @@ import dataAccess.DataAccess;
 import domain.Ride;
 import exceptions.RideAlreadyExistException;
 import exceptions.RideMustBeLaterThanTodayException;
+import nagusia.GertaerakSortu;
 
 public class CreateBean {
 	private ArrayList<Bidaia> Bidaiak = new ArrayList<Bidaia>();
@@ -24,6 +25,7 @@ public class CreateBean {
 	private int eserlekuKop;
 	private int prezioa;
 	private Date data;
+	private GertaerakSortu db = new GertaerakSortu();
 	
 	public CreateBean() {
 	}
@@ -75,12 +77,11 @@ public class CreateBean {
 	
 	public void creator() {
 		try {
+			System.out.println("Number of seats: " + eserlekuKop); 
 			
-	        Bidaiak.add(new Bidaia("11", bidaiNondik, bidaiNora, eserlekuKop, prezioa, data));
-	        BLFacade facadeBL = FacadeBean.getBusinessLogic();// Negozioaren logika sortu
-			
-			Ride t = facadeBL.createRide(bidaiNondik, bidaiNora, data, eserlekuKop, prezioa, "driver1@gmail.com");
-			System.out.println(t);
+	        db.createAndStoreRide(bidaiNondik, bidaiNora, data, eserlekuKop, prezioa, "Braian");
+	        List<Object[]> l= db.getRideDetails(bidaiNora, bidaiNondik, data);
+	        System.out.println(l);
 		}catch (Exception e){
 			System.out.println("Error: " + e.getMessage());
 			   e.printStackTrace();

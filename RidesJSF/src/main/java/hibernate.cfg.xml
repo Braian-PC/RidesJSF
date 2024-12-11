@@ -14,6 +14,7 @@
 <property name="hibernate.show_sql">false</property>
 <property name="hibernate.format_sql">true</property>
 <property name="hibernate.current_session_context_class">thread</property>
+<mapping class="eredua.domeinua.Ride"/>
 <mapping class="eredua.domeinua.LoginGertaera"/>
 <mapping class="eredua.domeinua.Erabiltzailea" />
 </session-factory>

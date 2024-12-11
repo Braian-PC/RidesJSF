@@ -18,6 +18,7 @@ import businessLogic.BLFacade;
 import businessLogic.BLFacadeImplementation;
 import dataAccess.DataAccess;
 import domain.Ride;
+import nagusia.GertaerakSortu;
 /**
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -39,6 +40,7 @@ public class QueryBean {
 	CreateBean lortuBidaia = new CreateBean();
     private List<Ride> bidaiak; // Lista de viajes
     private Ride bidaiaR;        // Viaje seleccionado
+	private GertaerakSortu db = new GertaerakSortu();
 	
 	public QueryBean() {
 	}

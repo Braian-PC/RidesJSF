@@ -2,184 +2,102 @@ package eredua.domeinua;
 
 import java.io.*;
 import java.util.Date;
-
 import javax.persistence.*;
 
-
-@SuppressWarnings("serial")
 @Entity
 public class Ride implements Serializable {
-	@Id 
-	@GeneratedValue
-	private Integer rideNumber;
-	private String from;
-	private String to;
-	private int nPlaces;
-	private Date date;
-	private float price;
-	
-	private Driver driver;  
-	
-	public Ride(){
-		super();
-	}
-	
-	public Ride(Integer rideNumber, String from, String to, Date date, int nPlaces, float price, Driver driver) {
-		super();
-		this.rideNumber = rideNumber;
-		this.from = from;
-		this.to = to;
-		this.nPlaces = nPlaces;
-		this.date=date;
-		this.price=price;
-		this.driver = driver;
-	}
 
-	
+    @Id 
+    @GeneratedValue
+    private Integer rideNumber;
 
-	public Ride(String from, String to,  Date date, int nPlaces, float price, Driver driver) {
-		super();
-		this.from = from;
-		this.to = to;
-		this.nPlaces = nPlaces;
-		this.date=date;
-		this.price=price;
-		this.driver = driver;
-	}
-	
-	/**
-	 * Get the  number of the ride
-	 * 
-	 * @return the ride number
-	 */
-	public Integer getRideNumber() {
-		return rideNumber;
-	}
+    @Column(name = "departure")  // Renaming 'from' to 'departure'
+    private String from;
 
-	
-	/**
-	 * Set the ride number to a ride
-	 * 
-	 * @param ride Number to be set	 */
-	
-	public void setRideNumber(Integer rideNumber) {
-		this.rideNumber = rideNumber;
-	}
+    @Column(name = "destination")  // Renaming 'to' to 'destination'
+    private String to;
 
+    private int nPlaces;
+    private Date date;
+    private float price;
+    
+    private String driver;  // El nombre del conductor como String
 
-	/**
-	 * Get the origin  of the ride
-	 * 
-	 * @return the origin location
-	 */
+    public Ride() {
+        super();
+    }
 
-	public String getFrom() {
-		return from;
-	}
+    // Constructor con parámetros
+    public Ride(String from, String to, Date date, int nPlaces, float price, String driver) {
+        super();
+        this.from = from;
+        this.to = to;
+        this.nPlaces = nPlaces;
+        this.date = date;
+        this.price = price;
+        this.driver = driver;  // Aquí se guarda el nombre del conductor
+    }
 
+    // Getters y setters
 
-	/**
-	 * Set the origin of the ride
-	 * 
-	 * @param origin to be set
-	 */	
-	
-	public void setFrom(String origin) {
-		this.from = origin;
-	}
+    public Integer getRideNumber() {
+        return rideNumber;
+    }
 
-	/**
-	 * Get the destination  of the ride
-	 * 
-	 * @return the destination location
-	 */
+    public void setRideNumber(Integer rideNumber) {
+        this.rideNumber = rideNumber;
+    }
 
-	public String getTo() {
-		return to;
-	}
+    public String getFrom() {
+        return from;
+    }
 
+    public void setFrom(String from) {
+        this.from = from;
+    }
 
-	/**
-	 * Set the origin of the ride
-	 * 
-	 * @param destination to be set
-	 */	
-	public void setTo(String destination) {
-		this.to = destination;
-	}
+    public String getTo() {
+        return to;
+    }
 
-	/**
-	 * Get the free places of the ride
-	 * 
-	 * @return the available places
-	 */
-	
-	/**
-	 * Get the date  of the ride
-	 * 
-	 * @return the ride date 
-	 */
-	public Date getDate() {
-		return date;
-	}
-	/**
-	 * Set the date of the ride
-	 * 
-	 * @param date to be set
-	 */	
-	public void setDate(Date date) {
-		this.date = date;
-	}
+    public void setTo(String to) {
+        this.to = to;
+    }
 
-	
-	public float getnPlaces() {
-		return nPlaces;
-	}
+    public int getnPlaces() {
+        return nPlaces;
+    }
 
-	/**
-	 * Set the free places of the ride
-	 * 
-	 * @param  nPlaces places to be set
-	 */
+    public void setnPlaces(int nPlaces) {
+        this.nPlaces = nPlaces;
+    }
 
-	public void setBetMinimum(int nPlaces) {
-		this.nPlaces = nPlaces;
-	}
+    public Date getDate() {
+        return date;
+    }
 
-	/**
-	 * Get the driver associated to the ride
-	 * 
-	 * @return the associated driver
-	 */
-	public Driver getDriver() {
-		return driver;
-	}
+    public void setDate(Date date) {
+        this.date = date;
+    }
 
-	/**
-	 * Set the driver associated to the ride
-	 * 
-	 * @param driver to associate to the ride
-	 */
-	public void setDriver(Driver driver) {
-		this.driver = driver;
-	}
+    public float getPrice() {
+        return price;
+    }
 
-	public float getPrice() {
-		return price;
-	}
+    public void setPrice(float price) {
+        this.price = price;
+    }
 
-	public void setPrice(float price) {
-		this.price = price;
-	}
+    public String getDriver() {
+        return driver;
+    }
 
+    public void setDriver(String driver) {
+        this.driver = driver;  // El nombre del conductor como String
+    }
 
-
-	public String toString(){
-		return rideNumber+";"+";"+from+";"+to+";"+date;  
-	}
-
-
-
-
-	
+    @Override
+    public String toString() {
+        return rideNumber + ";" + from + ";" + to + ";" + date;
+    }
 }
