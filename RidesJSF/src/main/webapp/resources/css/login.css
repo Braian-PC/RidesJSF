@@ -44,17 +44,17 @@ body {
     margin: 5px 0 0; /* Espaciado inferior entre título y subtítulo */
 }
 
-/* Contenedor principal */
+/* Contenedor principal del formulario */
 .main-container {
+    flex: 1; /* Permite que el contenedor principal crezca y ocupe el espacio disponible */
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    flex: 1;
-    padding: 10px 20px; /* Reducir padding superior para acercar la tabla */
-    margin-top: -40px;  /* Margen negativo para mover la tabla hacia arriba */
-    box-sizing: border-box;
+    flex-direction: column; /* Acomoda el contenido en una columna */
+    justify-content: center; /* Centra el contenido verticalmente */
+    align-items: center; /* Centra el contenido horizontalmente */
+    padding: 20px; /* Espaciado interno */
+    box-sizing: border-box; /* Incluye padding dentro de las dimensiones */
 }
+
 
 /* Título "Aukeratu" */
 .main-container h3 {
@@ -110,4 +110,15 @@ table .btn:hover {
 
 .footer-right {
     text-align: right; /* Alineación derecha para el texto de la derecha */
+}
+.container {
+  display: flex;             /* Activamos flexbox */
+  justify-content: center;   /* Centrado horizontal */
+  align-items: center;       /* Centrado vertical */
+  height: 100px;             /* Definir una altura para centrar verticalmente */
+  width: 100%;               /* Aseguramos que el contenedor ocupe todo el ancho disponible */
+}
+
+.login-button {
+  padding: 10px 20px;        /* Tamaño adecuado para el botón */
 }

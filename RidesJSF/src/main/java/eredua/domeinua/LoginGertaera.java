@@ -51,4 +51,9 @@ this.deskribapena = erabiltzailea.getIzena() + "k ongi egin du logina";
 else
 this.deskribapena = erabiltzailea.getIzena() + " login egiten saiatu da";
 }
+
+public String toString() { // LoginGertaera
+return id+"/"+deskribapena+"/"+data+"/"+erabiltzailea+"/"+login;
+}
+
 }

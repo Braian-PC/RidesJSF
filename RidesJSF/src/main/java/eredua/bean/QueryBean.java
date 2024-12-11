@@ -86,7 +86,8 @@ public class QueryBean {
         this.setBidaiNondik(bidaiNondik);
         BLFacade facadeBL = FacadeBean.getBusinessLogic();
         motakBaldintzatua = facadeBL.getDestinationCities(bidaiNondik);
-        System.out.println(bidaiNondik + bidaiNora);
+        this.bidaiNora = motakBaldintzatua.get(0);
+        System.out.println(bidaiNondik + " | " + bidaiNora);
 	}
 	
 	public void updateSetBidaiNora(AjaxBehaviorEvent event) {
@@ -138,7 +139,7 @@ public class QueryBean {
 	    System.out.println("Fecha normalizada: " + normalizedDate);
 	    System.out.println("Ciudades: De " + bidaiNondik + " a " + bidaiNora);
 	    
-	    List<Ride> rides = facadeBL.getRides(bidaiNora, bidaiNondik, data);
+	    List<Ride> rides = facadeBL.getRides(bidaiNondik, bidaiNora, data);
 	    
 	    if (rides.isEmpty()) {
 	        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("No hay viajes disponibles para esta fecha."));
