@@ -5,33 +5,57 @@
       xmlns:h="http://java.sun.com/jsf/html">
 
 <f:view>
-<h:head>
-<title>JavaServer Faces aplikazioa</title>
-</h:head>
-<h:body>
-<h:form>
-<h3>Mesedez, sartu izena eta pasahitza (1 eta 500-en arteko zenbakia)
-</h3>
-<table>
-<tr>
-<td>Izena:</td>
-<td><h:inputText id="izen" value="#{login.izena}"><f:validateRegex pattern="^(([a-z]|[A-Z])+[0-9]?)$"/></h:inputText></td>
-<td><h:message for="izen" style="color:red" /></td>
-</tr>
-<tr>
-<td>Pasahitza:</td>
-<td>
-<h:inputSecret id="pass" redisplay="true" value="#{login.pasahitza}">
-<f:validateLongRange minimum="1" maximum="500" />
-</h:inputSecret></td>
-<td> <h:message for="pass" style="color:red" /></td>
-</tr>
-</table>
-<p>
-<h:commandButton value="Onartu" action="#{login.egiaztatu}" />
-</p>
-<h:messages style="color:blue"/>
-</h:form>
-</h:body>
+    <h:head>
+        <title>JavaServer Faces aplikazioa</title>
+        <h:outputStylesheet library="css" name="login.css" />
+    </h:head>
+    
+    <h:body>
+        <!-- Encabezado -->
+        <div class="header">
+            <h1>Car Share</h1>
+            <p>Please, enter with your profile</p>
+        </div>
+
+        <!-- Formulario principal -->
+        <div style="flex: 1; padding: 20px;">
+            <h:form>
+                <table>
+                    <tr>
+                        <td>Izena:</td>
+                        <td><h:inputText id="izen" value="#{login.izena}">
+                            <f:validateRegex pattern="^(([a-z]|[A-Z])+[0-9]?)$"/>
+                        </h:inputText></td>
+                        <td><h:message for="izen" style="color:red" /></td>
+                    </tr>
+                    <tr>
+                        <td>Pasahitza:</td>
+                        <td>
+                            <h:inputSecret id="pass" redisplay="true" value="#{login.pasahitza}">
+                                <f:validateLongRange minimum="1" maximum="500" />
+                            </h:inputSecret>
+                        </td>
+                        <td> <h:message for="pass" style="color:red" /></td>
+                    </tr>
+                </table>
+                <p>
+                    <h:commandButton value="Log In" action="#{login.egiaztatu}" />
+                </p>
+                <h:messages style="color:blue"/>
+            </h:form>
+        </div>
+
+        <!-- Pie de página -->
+        <div class="footer">
+         	<div class="footer-left">
+            	<p>Software Ingeniaritza II: RidesJSF</p>
+            </div>
+            <div class="footer-right">
+            	<p>Creative Commons: Braian Porta | 2024</p>
+            </div>
+		</div>
+
+    </h:body>
 </f:view>
+
 </html>

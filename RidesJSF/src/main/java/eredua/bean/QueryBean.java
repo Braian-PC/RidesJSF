@@ -24,8 +24,6 @@ import javax.faces.context.FacesContext;
 
 import org.primefaces.event.SelectEvent;**/
 
-@ManagedBean
-@ViewScoped
 public class QueryBean {
 	private String driver;
 	private String bidaiNondik;
@@ -33,11 +31,10 @@ public class QueryBean {
 	private int eserlekuKop;
 	private int prezioa;
 	private Date data;
-	private BidaiAukerak mota;
 	private int kodeAukeratua = 0;
 	private Bidaia bidaia;
-	private static List<BidaiAukerak> motak=new ArrayList<BidaiAukerak>();
-	private static List<BidaiAukerak> motakBaldintzatua=new ArrayList<BidaiAukerak>();
+	private static List<String> motak=new ArrayList<String>();
+	private static List<String> motakBaldintzatua=new ArrayList<String>();
 	private String city;
 	CreateBean lortuBidaia = new CreateBean();
     private List<Ride> bidaiak; // Lista de viajes
@@ -45,17 +42,7 @@ public class QueryBean {
 	
 	public QueryBean() {
 	}
-	
-	public BidaiAukerak getMota() {
-		return mota;
-	}
-	
-	public void setMota(BidaiAukerak mota) {
-		this.mota = mota;
-		bidaiNondik = mota.getBidaiNondik();
-		System.out.println("Bidai aukera: "+mota.getKodea()+"/"+bidaiNondik);
-	}
-	
+
 	@PostConstruct
     public void init() {
         // Carga inicial de las opciones de depart
@@ -63,25 +50,22 @@ public class QueryBean {
 
         // Establecer una selección inicial en depart si no está seleccionada
         if (motak != null && !motak.isEmpty()) {
-            mota = motak.get(0); // Primera opción por defecto
-            city = mota.getBidaiNondik();
+            bidaiNondik = motak.get(0);
         }
 
         // Cargar opciones iniciales para arrival en base a la opción inicial de depart
+        this.updateArrivalCities(null);
         motakBaldintzatua = getMotakBaldintzatua();
     }
 	
-	public List<BidaiAukerak> getMotak() {
+	public List<String> getMotak() {
 		BLFacade facadeBL=FacadeBean.getBusinessLogic();// Negozioaren logika sortu
 		List<String> depart=facadeBL.getDepartCities(); //Neg. logikara deitu
-		motak = new ArrayList<BidaiAukerak>();
-		for (int i=0; i<depart.size(); i++) {
-			motak.add(new BidaiAukerak(i, depart.get(i)));
-		}
-		return motak;
+		
+		return depart;
 	}
 	
-	public void setMotak(List<BidaiAukerak> motak) {
+	public void setMotak(List<String> motak) {
 		this.motak = motak;
 	}
 	
@@ -92,51 +76,43 @@ public class QueryBean {
 		 new FacesMessage("Data aukeratua: "+event.getObject()));
 	}
 	
-	public static BidaiAukerak getObject(String mota) {
+	/**public static BidaiAukerak getObject(String mota) {
 		for (BidaiAukerak m: motak){
 			if (mota.equals(m.getBidaiNondik())) return m;
 		}
 		return null; 
-	}
-
-    public List<BidaiAukerak> getMotakBaldintzatua() {
-        if (city == null || city.isEmpty()) {
-            return new ArrayList<>(); // Retornar lista vacía si no hay ciudad seleccionada
-        }
-
+	}**/
+	public void updateArrivalCities(AjaxBehaviorEvent event) {
+        this.setBidaiNondik(bidaiNondik);
         BLFacade facadeBL = FacadeBean.getBusinessLogic();
-        List<String> destiny = facadeBL.getDestinationCities(city);
-        motakBaldintzatua = new ArrayList<>();
-        for (int i = 0; i < destiny.size(); i++) {
-            motakBaldintzatua.add(new BidaiAukerak(i, destiny.get(i)));
-        }
-        return motakBaldintzatua;
+        motakBaldintzatua = facadeBL.getDestinationCities(bidaiNondik);
+        System.out.println(bidaiNondik + bidaiNora);
+	}
+	
+	public void updateSetBidaiNora(AjaxBehaviorEvent event) {
+		this.setBidaiNora(bidaiNora);
+	}
+	
+    public List<String> getMotakBaldintzatua() {
+    	return motakBaldintzatua;
     }
 	
 	
-	public void setMotakBaldintzatua(List<BidaiAukerak> motakBaldintzatua) {
+	public void setMotakBaldintzatua(List<String> motakBaldintzatua) {
 		this.motakBaldintzatua = motakBaldintzatua;
 	}
 	
-    public void listener(AjaxBehaviorEvent event) {
-        // Manejar cambio en depart
-        FacesContext.getCurrentInstance().addMessage(null,
-            new FacesMessage("Erabiltzailearen mota:" + mota.getKodea() + "/" + mota.getBidaiNondik()));
-        city = mota.getBidaiNondik(); // Actualizar ciudad seleccionada
-        motakBaldintzatua = getMotakBaldintzatua(); // Actualizar llegada
-    }
-	
 	public void onEventSelect(SelectEvent event) {
-		this.mota=(BidaiAukerak)event.getObject();
+		//this.mota=(String)event.getObject();
 		
-		FacesContext.getCurrentInstance().addMessage("nireForm:mezuak",
-		new FacesMessage("Erabiltzailearen mota (taula):"+mota.getKodea()+"/"+mota.getBidaiNondik()));
-		city = mota.getBidaiNondik();
-		System.out.println(mota.getKodea());
+		//FacesContext.getCurrentInstance().addMessage("nireForm:mezuak",
+		//new FacesMessage("Erabiltzailearen mota (taula):"+mota.getKodea()+"/"+mota.getBidaiNondik()));
+		bidaiNondik = (String)event.getObject();
 	}
 	
     public List<Ride> getBidaiak() {
         if (bidaiNora == null || bidaiNondik == null || data == null) {
+        	System.out.println("Nada por aquí");
             return new ArrayList<>(); // Si faltan datos, retornar lista vacía
         }
 
@@ -162,7 +138,7 @@ public class QueryBean {
 	    System.out.println("Fecha normalizada: " + normalizedDate);
 	    System.out.println("Ciudades: De " + bidaiNondik + " a " + bidaiNora);
 	    
-	    List<Ride> rides = facadeBL.getRides(bidaiNora, bidaiNondik, normalizedDate);
+	    List<Ride> rides = facadeBL.getRides(bidaiNora, bidaiNondik, data);
 	    
 	    if (rides.isEmpty()) {
 	        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("No hay viajes disponibles para esta fecha."));
@@ -170,7 +146,7 @@ public class QueryBean {
 	        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Viajes encontrados: " + rides.size()));
 	    }
 
-	    return null; // Mantén la misma página
+	    return null;
 	}
 	
 	private Date normalizeDate(Date date) {

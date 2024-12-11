@@ -21,55 +21,27 @@ body {
 
 /* Estilo del encabezado */
 .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center; /* Alineación vertical */
-    background-color: #333333;
-    padding: 28px 20px; /* Reducido el padding para hacerlo más delgado */
+    background-color: #333333; /* Mismo color que el footer */
+    padding: 35px 20px; /* Ajustado para que sea más delgado */
     width: 100%;
     box-sizing: border-box;
-    color: white;
-}
-
-/* Imagen del encabezado con mayor tamaño */
-.header-left img {
-    width: 180px; /* Aumentado el tamaño de la imagen */
-    height: auto; /* Asegura que no se distorsione */
-    mix-blend-mode: lighten;
-}
-
-/* Contenedor central para centrar el título */
-.header-center {
-    flex-grow: 1; /* Ocupa el espacio restante */
     display: flex;
-    justify-content: center; /* Asegura que el título esté centrado */
-}
-
-/* Título centrado, ahora con margen izquierdo */
-.header-title {
-    font-size: 2rem;
+    flex-direction: column;
+    align-items: center; /* Centra el contenido horizontalmente */
+    justify-content: center; /* Centra el contenido verticalmente */
     color: white;
-    margin: 0;
-    margin-left: -70px; /* Ajuste de margen a la izquierda para moverlo */
+    font-size: 1rem; /* Tamaño de texto similar al footer */
+    text-align: center; /* Centra el texto */
 }
 
-/* Botón de logout */
-.header-right .btn {
-    padding: 10px 20px;
-    background-color: #333333;  /* El mismo color de fondo que el header */
-    color: #ffffff;  /* Texto blanco para el botón */
-    border: 1px solid #d3d3d3;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 1rem;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;  /* Añadimos transición al brillo */
+.header h1 {
+    font-size: 2rem; /* Ajusta el tamaño del título */
+    margin: 0; /* Elimina márgenes adicionales */
 }
 
-.header-right .btn:hover {
-    background-color: #555555;  /* Un tono ligeramente más claro que el color del header */
-    transform: scale(1.1);
-    box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.6);  /* Brillo suave alrededor */
+.header p {
+    font-size: 1rem; /* Ajusta el tamaño del subtítulo */
+    margin: 5px 0 0; /* Espaciado inferior entre título y subtítulo */
 }
 
 /* Contenedor principal */

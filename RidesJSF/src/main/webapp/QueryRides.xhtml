@@ -22,18 +22,18 @@
 					<tr>
 						<td>Depart City</td>
 						<td>
-							<h:selectOneMenu value="#{query.mota}">
-								<f:converter converterId="BidaiaConverter"/>
+							<h:selectOneMenu value="#{query.bidaiNondik}">
 								<f:selectItems value="#{query.motak}"/>
-								<f:ajax event="change" listener="#{query.listener}" render="arrivalCity"/>
+								<f:ajax event="change" listener="#{query.updateArrivalCities}" render="arrivalCity" execute="@this"/>
 							</h:selectOneMenu>
 						</td>
 					</tr>
 					<tr>
 						<td>Arrival City</td>
 						<td>
-							<h:selectOneMenu value="#{query.mota}" id="arrivalCity">
+							<h:selectOneMenu value="#{query.bidaiNora}" id="arrivalCity">
 								<f:selectItems value="#{query.motakBaldintzatua}" />
+								<f:ajax event="change" listener="#{query.updateSetBidaiNora}" execute="@this"/>
 							</h:selectOneMenu>
 						</td>
 					</tr>
@@ -69,15 +69,8 @@
 							<p:column headerText="Seats">#{item.nPlaces}</p:column>
 							<p:column headerText="Price">#{item.price}</p:column>
 							</p:dataTable></td>
-							<td><h:outputText id="aukeratua" value="#{query.mota}" style="color:red" />
+							<td><h:outputText id="aukeratua" value="#{query.bidaiNondik}" style="color:red" />
 						</td>
-							
-		            	<td>
-		            		<h:selectOneMenu id="zerrenda" value="#{query.mota}">
-							<f:selectItems value="#{query.motak}"/>
-							<f:ajax event="change" listener="#{query.listener}" render="mezuak aukeratua taulaPF"/>
-							</h:selectOneMenu>
-		            	</td>
 		            </tr>
 		            <tr>
 		                <td><h:commandButton class="btn" value="Close" action="return" immediate="true" /></td>
