@@ -7,84 +7,123 @@
 <f:view>
 
 <h:head>
-	<title>Car Share by Braian</title>
+	<title>Car Share | Braian</title>
+	<link rel="icon" type="image/x-icon" href="https://images.vexels.com/content/128427/preview/pink-circle-retro-car-2d1ecc.png"/>
 	<h:outputStylesheet library="css" name="createRide.css" />
 	<h:outputScript library="js" name="createZiur.js" />
 </h:head>
 
 <h:body>
+<div class="page-container">
+    <div class="header">
+        <div class="header-left">
+            <img
+                src="https://www.ehu.eus/documents/340468/5849813/Biling%C3%BCe_negativo_alta.jpg"
+                alt="Logo"
+                class="header-logo" />
+        </div>
+        <div class="header-center">
+            <h3 class="header-title">Car Share | create ride</h3>
+        </div>
+        <h:form>
+        <div class="header-right">
+            <h:commandButton class="btn query-btn" value="Find Rides" action="queryRides" immediate="true"/>
+            <h:commandButton class="btn logout-btn" value="Log Out" action="bye" immediate="true"/>
+        </div>
+        </h:form>
+    </div>
+    
+    <!-- Add p:growl for success messages -->
+    <!-- Agregar required="true" a los inputText -->
+    <p:growl id="messages" showDetail="true" life="5300" />
 <h:form>
-	<h3>Create Ride</h3>
-	<div class="main-container">
-    <div class="container">
+    <div class="main-container">
+        <div class="container">
+            <div class="block">
+                <table>
+                    <tr>
+                        <td>Depart City</td>
+                        <td>
+                            <h:inputText id="depart" required="true" 
+                                         requiredMessage="Depart City is required" 
+                                         value="#{create.bidaiNondik}"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Arrival City</td>
+                        <td>
+                            <h:inputText id="arrival" required="true" 
+                                         requiredMessage="Arrival City is required" 
+                                         value="#{create.bidaiNora}"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Number of Seats</td>
+                        <td>
+                            <h:inputText id="seats" required="true" 
+                                         requiredMessage="Number of Seats is required" 
+                                         value="#{create.eserlekuKop}">
+                                <f:convertNumber />
+                                <f:validateLongRange minimum="1"/>
+                            </h:inputText>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Price</td>
+                        <td>
+                            <h:inputText id="price" required="true" 
+                                         requiredMessage="Price is required" 
+                                         value="#{create.prezioa}">
+                                <f:convertNumber />
+                                <f:validateLongRange minimum="0"/>
+                            </h:inputText>
+                        </td>
+                    </tr>
+                </table>
+            </div>
 
-        <div class="block">
-            
+            <div class="block">
+                <h4>Select date:</h4>
+                <p:calendar id="data" required="true" 
+                            requiredMessage="Date is required" 
+                            value="#{create.data}" 
+                            navigator="true" mode="inline">
+                    <p:ajax event="dateSelect" listener="#{create.onDateSelect}" update="mezuak"></p:ajax>
+                </p:calendar>
+                <h:messages id="mezuak" style="color:blue" globalOnly="true"/>
+            </div>
+        </div>
+
+        <div class="block-center">
             <table>
                 <tr>
-                    <td>Depart City</td>
                     <td>
-                        <h:inputText id="depart" redisplay="true" value="#{create.bidaiNondik}"/>
+                        <h:commandButton class='btn' value="Create Ride" 
+                                         action="#{create.creator}" 
+                                         onclick="validateInputs()">
+                        </h:commandButton>
                     </td>
-                </tr>
-                <tr>
-                    <td>Arrival City</td>
                     <td>
-                        <h:inputText id="arrival" redisplay="true" value="#{create.bidaiNora}">
-                        </h:inputText>
+                        <h:commandButton class='btn' value="Close" action="return" immediate="true"/>
                     </td>
-                </tr>
-                <tr>
-                    <td>Number of Seats</td>
-                    <td>
-                        <h:inputText id="seats" redisplay="true" value="#{create.eserlekuKop}">
-                        	<f:convertNumber />
-				            <f:validateLongRange minimum="1"/>
-                        </h:inputText>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Price</td>
-                    <td>
-                        <h:inputText id="price" redisplay="true" value="#{create.prezioa}">
-                        	<f:convertNumber />
-				            <f:validateLongRange minimum="0"/>
-                        </h:inputText>
-                    </td>
-                </tr>
-                <tr>
-                	<td><h:message for="seats" style="color:red" /></td>
-                </tr>
-                <tr>
-                	<td><h:message for="price" style="color:red" /></td>
                 </tr>
             </table>
         </div>
+    </div>
+</h:form>
 
-        <div class="block">
-            <h4>Ride date</h4>
-            <p:calendar id="data" value="#{create.data}" navigator="true" mode="inline">
-                <p:ajax event="dateSelect" listener="#{create.onDateSelect}"
-                update="mezuak"></p:ajax>
-            </p:calendar>
-            <h:messages id="mezuak" style="color:blue" globalOnly="true"/>
+    <div class="footer">
+        <div class="footer-left">
+            <p>Software Ingeniaritza II: RidesJSF</p>
+        </div>
+        <div class="footer-right">
+            <p>Creative Commons: Braian Porta | 2024</p>
         </div>
     </div>
+</div>
 
-    <div class="block-center">
-        <table>
-            <tr>
-                <td><h:commandButton class='btn' value="Create Ride" action="#{create.creator}">
-            	</h:commandButton></td>
-            	<td><h:commandButton class='btn' value="Close" action="return" immediate="true"/></td>
-            </tr>
-            <tr>
-            	<td><h:messages id="mezu" style="color:blue" globalOnly="true"/></td>
-            </tr>
-        </table>
-    </div>
-	</div>
-</h:form>
+<h:outputScript name="primefaces.js" />
+
 </h:body>
 </f:view>
 </html>

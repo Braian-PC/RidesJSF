@@ -7,13 +7,38 @@
       
 <f:view>
 <h:head>
-	<title>Car Share by Braian</title>
+	<title>Car Share | Braian</title>
+	<link rel="icon" type="image/x-icon" href="https://images.vexels.com/content/128427/preview/pink-circle-retro-car-2d1ecc.png"/>
 	<h:outputStylesheet library="css" name="queryRides.css" />
 </h:head>
 
 <h:body>
+
+<div class="page-container">
+    <div class="header">
+        <div class="header-left">
+            <img
+                src="https://www.ehu.eus/documents/340468/5849813/Biling%C3%BCe_negativo_alta.jpg"
+                alt="Logo"
+                class="header-logo" />
+        </div>
+        <div class="header-center">
+            <h3 class="header-title">Car Share | find rides</h3>
+        </div>
+        <h:form>
+        <div class="header-right">
+            <h:commandButton class="btn query-btn" value="Create Ride" action="createRide" immediate="true"/>
+            <h:commandButton class="btn logout-btn" value="Log Out" action="bye" immediate="true"/>
+        </div>
+        </h:form>
+    </div>
+    
+    <!-- Add p:growl for success messages -->
+    <!-- Agregar required="true" a los inputText -->
+    <p:growl id="messages" showDetail="true" life="5300" />
+    
 <h:form id="nireForm">
-	<h3>Find Rides</h3>
+	<div class="main-container">
 
 	<div class="main-container">
 		<div class="container">
@@ -43,7 +68,7 @@
 				<table>
 					<tr>
 						<td>
-							<h4>Ride date</h4>
+							<h4>Select date:</h4>
 							<p:calendar id="data" value="#{query.data}" navigator="true" mode="inline">
 								<p:ajax event="dateSelect" listener="#{query.bidaiakLortu}" update="taulaPF mezuak"/>
 							</p:calendar>
@@ -63,14 +88,12 @@
 		            </tr>
 		            <tr>
 		            	<td><p:dataTable id="taulaPF" value="#{query.bidaiak}" var="item" selectionMode="single" selection="#{query.bidaiaR}" border="1" rowKey="#{item.rideNumber}" emptyMessage="No rides">
-							<p:ajax event="rowSelect" listener="#{query.onEventSelect}" update=":nireForm:aukeratua :nireForm:mezuak"></p:ajax>
+							<p:ajax event="rowSelect" listener="#{query.onEventSelect}" update=":nireForm:mezuak"></p:ajax>
 							<f:facet name="header">Rides:</f:facet>
 							<p:column headerText="Driver">#{item.driver}</p:column>
 							<p:column headerText="Seats">#{item.nPlaces}</p:column>
 							<p:column headerText="Price">#{item.price}</p:column>
 							</p:dataTable></td>
-							<td><h:outputText id="aukeratua" value="#{query.bidaiNondik}" style="color:red" />
-						</td>
 		            </tr>
 		            <tr>
 		                <td><h:commandButton class="btn" value="Close" action="return" immediate="true" /></td>
@@ -79,7 +102,18 @@
    			</div>
    		</div>
    	</div>
+
+    </div>
 </h:form>
+   	    <div class="footer">
+        <div class="footer-left">
+            <p>Software Ingeniaritza II: RidesJSF</p>
+        </div>
+        <div class="footer-right">
+            <p>Creative Commons: Braian Porta | 2024</p>
+        </div>
+    </div>
+</div>
 </h:body>
 
 </f:view>

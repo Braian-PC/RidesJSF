@@ -12,7 +12,7 @@ import org.primefaces.event.SelectEvent;
 import businessLogic.BLFacade;
 import businessLogic.BLFacadeImplementation;
 import dataAccess.DataAccess;
-import domain.Ride;
+import eredua.domeinua.Ride;
 import exceptions.RideAlreadyExistException;
 import exceptions.RideMustBeLaterThanTodayException;
 import nagusia.GertaerakSortu;
@@ -64,7 +64,7 @@ public class CreateBean {
 	
 	public void onDateSelect(SelectEvent event) {
 		FacesContext.getCurrentInstance().addMessage(null,
-		 new FacesMessage("Data aukeratua: "+event.getObject()));
+		 new FacesMessage("Selected date: "+event.getObject()));
 		}
 
 	public Date getData() {
@@ -75,16 +75,58 @@ public class CreateBean {
 		this.data = data;
 	}
 	
-	public void creator() {
-		try {
-			System.out.println("Number of seats: " + eserlekuKop); 
-			
+	public String creator() {
+	    // Validación de campos obligatorios
+	    if (bidaiNondik == null || bidaiNondik.trim().isEmpty() ||
+	        bidaiNora == null || bidaiNora.trim().isEmpty() ||
+	        eserlekuKop == 0 ||
+	        prezioa == 0 ||
+	        data == null) {
+
+	        // Agregar mensaje de error global
+	        FacesContext.getCurrentInstance().addMessage(null,
+	            new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+	            "Error", "Mesdez, sartu datuak"));
+	        return null; // Evita la navegación
+	    }
+
+	    try {
+	        // Intentar crear y guardar el viaje en la base de datos
 	        db.createAndStoreRide(bidaiNondik, bidaiNora, data, eserlekuKop, prezioa, "Braian");
-	        List<Object[]> l= db.getRideDetails(bidaiNora, bidaiNondik, data);
+	        
+	        // Verificar si el viaje se guardó correctamente buscando los detalles
+	        List<Ride> l = db.getRideDetails(bidaiNora, bidaiNondik, data);
 	        System.out.println(l);
-		}catch (Exception e){
-			System.out.println("Error: " + e.getMessage());
-			   e.printStackTrace();
-			}
-	 }
+	        
+	        // Si se llega aquí sin excepción, el viaje se guardó con éxito
+	        FacesContext.getCurrentInstance().addMessage(null,
+	            new FacesMessage(FacesMessage.SEVERITY_INFO, 
+	            "Success", "Ride successfully saved"));
+	        
+	        // Opcional: limpiar los campos después de guardar
+	        limpiarCampos();
+	        
+	        return "success"; // Puedes redirigir a otra página si lo deseas
+	        
+	    } catch (Exception e) {
+	        // Manejar cualquier error durante el guardado
+	        FacesContext.getCurrentInstance().addMessage(null,
+	            new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+	            "Error", e.getMessage()));
+
+	        System.out.println("Error: " + e.getMessage());
+	        e.printStackTrace();
+	        
+	        return null;
+	    }
+	}
+
+	// Método opcional para limpiar los campos después de guardar
+	private void limpiarCampos() {
+	    bidaiNondik = null;
+	    bidaiNora = null;
+	    eserlekuKop = 0;
+	    prezioa = 0;
+	    data = null;
+	}
 }

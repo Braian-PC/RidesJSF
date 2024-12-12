@@ -10,6 +10,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
+import javax.faces.model.ListDataModel;
 
 import org.omnifaces.cdi.ViewScoped;
 import org.primefaces.event.SelectEvent;
@@ -17,7 +18,7 @@ import org.primefaces.event.SelectEvent;
 import businessLogic.BLFacade;
 import businessLogic.BLFacadeImplementation;
 import dataAccess.DataAccess;
-import domain.Ride;
+import eredua.domeinua.Ride;
 import nagusia.GertaerakSortu;
 /**
 import javax.faces.application.FacesMessage;
@@ -38,8 +39,8 @@ public class QueryBean {
 	private static List<String> motakBaldintzatua=new ArrayList<String>();
 	private String city;
 	CreateBean lortuBidaia = new CreateBean();
-    private List<Ride> bidaiak; // Lista de viajes
-    private Ride bidaiaR;        // Viaje seleccionado
+    private List<Ride> bidaiak;
+    private Ride bidaiaR;
 	private GertaerakSortu db = new GertaerakSortu();
 	
 	public QueryBean() {
@@ -61,34 +62,24 @@ public class QueryBean {
     }
 	
 	public List<String> getMotak() {
-		BLFacade facadeBL=FacadeBean.getBusinessLogic();// Negozioaren logika sortu
-		List<String> depart=facadeBL.getDepartCities(); //Neg. logikara deitu
+		//BLFacade facadeBL=FacadeBean.getBusinessLogic();// Negozioaren logika sortu
+		//List<String> depart=facadeBL.getDepartCities(); //Neg. logikara deitu
 		
+		List<String> depart = db.getAllFroms();
 		return depart;
 	}
 	
 	public void setMotak(List<String> motak) {
 		this.motak = motak;
 	}
-	
-
 
 	public void onDateSelect(SelectEvent event) {
 		FacesContext.getCurrentInstance().addMessage(null,
 		 new FacesMessage("Data aukeratua: "+event.getObject()));
 	}
-	
-	/**public static BidaiAukerak getObject(String mota) {
-		for (BidaiAukerak m: motak){
-			if (mota.equals(m.getBidaiNondik())) return m;
-		}
-		return null; 
-	}**/
 	public void updateArrivalCities(AjaxBehaviorEvent event) {
-        this.setBidaiNondik(bidaiNondik);
-        BLFacade facadeBL = FacadeBean.getBusinessLogic();
-        motakBaldintzatua = facadeBL.getDestinationCities(bidaiNondik);
-        this.bidaiNora = motakBaldintzatua.get(0);
+		motakBaldintzatua = db.getAllToByFrom(bidaiNondik);
+		this.bidaiNora = motakBaldintzatua.get(0);
         System.out.println(bidaiNondik + " | " + bidaiNora);
 	}
 	
@@ -115,42 +106,41 @@ public class QueryBean {
 	
     public List<Ride> getBidaiak() {
         if (bidaiNora == null || bidaiNondik == null || data == null) {
-        	System.out.println("Nada por aquí");
             return new ArrayList<>(); // Si faltan datos, retornar lista vacía
-        }
-
-        BLFacade facadeBL = FacadeBean.getBusinessLogic();
-        bidaiak = facadeBL.getRides(bidaiNora, bidaiNondik, data);
-
-        // Si no hay resultados, agregar un mensaje
-        if (bidaiak.isEmpty()) {
-            FacesContext.getCurrentInstance().addMessage("mezuak",
-                new FacesMessage(FacesMessage.SEVERITY_INFO, "No Rides", null));
         }
         return bidaiak;
     }
 
 	
-	public String bidaiakLortu() {
-	    BLFacade facadeBL = FacadeBean.getBusinessLogic();
-	    
-	    // Normaliza la fecha antes de la consulta
-	    Date normalizedDate = normalizeDate(data);
-	    
-	    System.out.println("Fecha seleccionada: " + data);
-	    System.out.println("Fecha normalizada: " + normalizedDate);
-	    System.out.println("Ciudades: De " + bidaiNondik + " a " + bidaiNora);
-	    
-	    List<Ride> rides = facadeBL.getRides(bidaiNondik, bidaiNora, data);
-	    
-	    if (rides.isEmpty()) {
-	        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("No hay viajes disponibles para esta fecha."));
-	    } else {
-	        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Viajes encontrados: " + rides.size()));
-	    }
+    public String bidaiakLortu() {
+        
+        System.out.println("Fecha seleccionada: " + data);
+        System.out.println("Ciudades: De " + bidaiNondik + " a " + bidaiNora);
+        
+        // Obtener los viajes disponibles para la fecha seleccionada y las ciudades
+        bidaiak= db.getRideDetails(bidaiNondik, bidaiNora, data);
+        System.out.println(bidaiak.toString());
+        
+        // Actualizar la lista de viajes en el Managed Bean
+        List<Ride> rideList = new ArrayList<>();
+        for (Ride ride : bidaiak) {
+            Ride t = new Ride();
+            t.setDriver((String) ride.getDriver());
+            t.setnPlaces((Integer) ride.getnPlaces());
+            t.setPrice((Float) ride.getPrice());
+            rideList.add(t);
+        }
+        
+        if (bidaiak.isEmpty()) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("No rides found for this date"));
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Rides found: " + bidaiak.size()));
+        }
+        
+        // Retornar null para no redirigir a otra página
+        return null;
+    }
 
-	    return null;
-	}
 	
 	private Date normalizeDate(Date date) {
 	    Calendar cal = Calendar.getInstance();

@@ -55,7 +55,9 @@ body {
     box-sizing: border-box; /* Incluye padding dentro de las dimensiones */
 }
 
-
+.main-container{
+	background-color: #f0f0f0;
+}
 /* Título "Aukeratu" */
 .main-container h3 {
     font-size: 2rem; /* Ajustamos el tamaño a más pequeño */

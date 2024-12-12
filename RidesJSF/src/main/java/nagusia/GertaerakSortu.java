@@ -180,17 +180,16 @@ public void createAndStoreRide(String from, String to, Date date, int nPlaces, f
     session.getTransaction().commit();
 }
 
-public List<Object[]> getRideDetails(String from, String to, Date date) {
+public List<Ride> getRideDetails(String from, String to, Date date) {
     // Obtener la sesión de Hibernate y comenzar una transacción
+	System.out.println(">> DataAccess: getRides=> from= "+from+" to= "+to+" date "+date);
+	List<Ride> res = new ArrayList<>();	
     Session session = HibernateUtil.getSessionFactory().getCurrentSession();
     session.beginTransaction();
 
     try {
-        // Crear la consulta HQL para obtener el driver, nPlaces y price del Ride
-        String hql = "select r.driver, r.nPlaces, r.price from Ride r " +
-                     "where r.from = :from and r.to = :to and r.date = :date";
         
-        Query query = session.createQuery(hql);
+        Query query = session.createQuery("from Ride r where r.from = :from and r.to = :to and r.date = :date");
         
         // Establecer los parámetros de la consulta
         query.setParameter("from", from);
@@ -198,20 +197,106 @@ public List<Object[]> getRideDetails(String from, String to, Date date) {
         query.setParameter("date", date);
 
         // Ejecutar la consulta y obtener los resultados
-        List<Object[]> result = query.list();
+        List<Ride> rides = query.list();
 
         // Confirmar la transacción
         session.getTransaction().commit();
 
         // Mostrar los resultados en System.out
-        for (Object[] row : result) {
-            System.out.println("Driver: " + row[0] + ", Seats: " + row[1] + ", Price: " + row[2]);
+        for (Ride ride:rides){
+        	res.add(ride);
+ 		  }
+
+        return res;
+    } catch (Exception ex) {
+        // Manejar errores
+        System.out.println("Error al obtener detalles del viaje: " + ex.getMessage());
+
+        // Revertir la transacción en caso de error
+        if (session.getTransaction().isActive()) {
+            session.getTransaction().rollback();
+        }
+
+        return new ArrayList<>();
+    }
+}
+
+
+public List<String> getAllFroms() {
+    // Obtener la sesión de Hibernate y comenzar una transacción
+    Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+    session.beginTransaction();
+
+    try {
+        // Crear la consulta HQL para obtener todos los valores de "from" en la tabla Ride
+        String hql = "select distinct r.from from Ride r";
+        
+        // Ejecutar la consulta
+        Query query = session.createQuery(hql);
+
+        // Obtener los resultados como una lista de cadenas
+        List<String> result = query.list();
+
+        // Confirmar la transacción
+        session.getTransaction().commit();
+
+        // Comprobar si hay resultados y evitar el acceso a un índice vacío
+        if (result.isEmpty()) {
+            System.out.println("No se encontraron registros para 'from'.");
+        } else {
+            for (String fromValue : result) {
+                System.out.println("From: " + fromValue);
+            }
         }
 
         return result;
     } catch (Exception ex) {
         // Manejar errores
-        System.out.println("Error al obtener detalles del viaje: " + ex.getMessage());
+        System.out.println("Error al obtener los valores 'from': " + ex.getMessage());
+
+        // Revertir la transacción en caso de error
+        if (session.getTransaction().isActive()) {
+            session.getTransaction().rollback();
+        }
+
+        return new ArrayList<>();
+    }
+}
+
+public List<String> getAllToByFrom(String from) {
+    // Obtener la sesión de Hibernate y comenzar una transacción
+    Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+    session.beginTransaction();
+
+    try {
+        // Crear la consulta HQL para obtener todos los valores "to" donde "from" sea igual al parámetro
+        String hql = "select r.to from Ride r where r.from = :from";
+
+        // Ejecutar la consulta
+        Query query = session.createQuery(hql);
+
+        // Establecer el parámetro "from" en la consulta
+        query.setParameter("from", from);
+
+        // Obtener los resultados como una lista de cadenas
+        List<String> result = query.list();
+
+        // Confirmar la transacción
+        session.getTransaction().commit();
+
+        // Comprobar si hay resultados y manejar el caso de lista vacía
+        if (result.isEmpty()) {
+            System.out.println("No se encontraron destinos ('to') para el valor 'from' proporcionado.");
+        } else {
+            for (String toValue : result) {
+                System.out.println("To: " + toValue);
+            }
+        }
+
+        return result;
+    } catch (Exception ex) {
+        // Manejar errores
+        System.out.println("Error al obtener los destinos 'to': " + ex.getMessage());
 
         // Revertir la transacción en caso de error
         if (session.getTransaction().isActive()) {
