@@ -26,6 +26,8 @@ import javax.faces.context.FacesContext;
 
 import org.primefaces.event.SelectEvent;**/
 
+@ManagedBean
+@ViewScoped
 public class QueryBean {
 	private String driver;
 	private String bidaiNondik;
@@ -108,10 +110,14 @@ public class QueryBean {
         if (bidaiNora == null || bidaiNondik == null || data == null) {
             return new ArrayList<>(); // Si faltan datos, retornar lista vacía
         }
+        System.out.println("Aquiii" + bidaiak.toString());
         return bidaiak;
     }
 
-	
+	public void setBidaiak(List<Ride> bidaiak) {
+		this.bidaiak = bidaiak;
+	}
+    
     public String bidaiakLortu() {
         
         System.out.println("Fecha seleccionada: " + data);
@@ -140,18 +146,25 @@ public class QueryBean {
         // Retornar null para no redirigir a otra página
         return null;
     }
-
 	
-	private Date normalizeDate(Date date) {
-	    Calendar cal = Calendar.getInstance();
-	    cal.setTime(date);
-	    cal.set(Calendar.HOUR_OF_DAY, 0);
-	    cal.set(Calendar.MINUTE, 0);
-	    cal.set(Calendar.SECOND, 0);
-	    cal.set(Calendar.MILLISECOND, 0);
-	    return cal.getTime();
-	}
-	
+    public List<Ride> bidaiakByID(String driver) {
+        
+        System.out.println("Driver: " + driver);
+        
+        // Obtener los viajes disponibles para la fecha seleccionada y las ciudades
+        bidaiak= db.getRidesByUser(driver);
+        System.out.println("Viajes nenekfnag:" + bidaiak.toString());
+        
+        if (bidaiak.isEmpty()) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("No rides found for this user"));
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Rides found: " + bidaiak.size()));
+        }
+        
+        // Retornar null para no redirigir a otra página
+        return bidaiak;
+    }
+    
 	public String getDepartCities() {
 		BLFacade facadeBL; // Negozioaren logika gordetzen du
 		facadeBL=new BLFacadeImplementation (new DataAccess());

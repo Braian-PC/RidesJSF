@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" name="return" comment="" id="pf17321335742986" configfile="/RidesJSF/src/main/webapp/WEB-INF/faces-config.xml">
-  <nodes xsi:type="pageflow:PFPage" name="Menu.xhtml" x="240" y="312" id="pf17321339475107" referenceLink="//@navigationRule.5/@fromViewId|" outlinks="pf17321339475108 pf17321339475109 pf17337375308640" inlinks="pf17328676694470 pf17328676694481 pf17337375308641" path="/Menu.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="CreateRide.xhtml" x="420" y="432" id="pf173213394751010" referenceLink="//@navigationRule.2/@fromViewId|" outlinks="pf17328676694470 pf17339563002893 pf17339585642645" inlinks="pf17321339475108 pf17339585642646" path="/CreateRide.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="QueryRides.xhtml" x="30" y="432" id="pf173213394751011" referenceLink="//@navigationRule.3/@fromViewId|" outlinks="pf17328676694481 pf17339563002894 pf17339585642646" inlinks="pf17321339475109 pf17339585642645" path="/QueryRides.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="Login.xhtml" x="240" y="96" id="pf17337375308642" referenceLink="//@navigationRule.7/@navigationCase.0/@toViewId|" outlinks="pf17337375308641 pf17339165470710" inlinks="pf17337375308640 pf17339165470721 pf17339563002894 pf17339563002893" path="/Login.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="Register.xhtml" x="516" y="96" id="pf17339165470722" referenceLink="//@navigationRule.7/@fromViewId|" outlinks="pf17339165470721" inlinks="pf17339165470710" path="/Register.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Menu.xhtml" x="532" y="276" id="pf17321339475107" referenceLink="//@navigationRule.25/@navigationCase.0/@toViewId|" outlinks="pf17321339475108 pf17321339475109 pf17337375308640 pf17339888921980 pf173399673739413" inlinks="pf17328676694470 pf17328676694481 pf17337375308641 pf17339888921981 pf173399668486910 pf173399851223421" path="/Menu.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="CreateRide.xhtml" x="396" y="444" id="pf173213394751010" referenceLink="//@navigationRule.18/@fromViewId|" outlinks="pf17328676694470 pf17339563002893 pf17339585642645 pf17339890481838" inlinks="pf17321339475108 pf17339585642646 pf17339888921982" path="/CreateRide.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="QueryRides.xhtml" y="374" id="pf173213394751011" referenceLink="//@navigationRule.16/@navigationCase.0/@toViewId|" outlinks="pf17328676694481 pf17339563002894 pf17339585642646 pf17339888921984" inlinks="pf17321339475109 pf17339585642645 pf17339888921985" path="/QueryRides.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Login.xhtml" x="432" y="72" id="pf17337375308642" referenceLink="//@navigationRule.23/@navigationCase.0/@toViewId|" outlinks="pf17337375308641 pf17339165470710" inlinks="pf17337375308640 pf17339165470721 pf17339563002894 pf17339563002893 pf17339890481839 pf173399673739414 pf173399847217917" path="/Login.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Register.xhtml" x="768" y="72" id="pf17339165470722" referenceLink="//@navigationRule.7/@fromViewId|" outlinks="pf17339165470721" inlinks="pf17339165470710" path="/Register.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Profile.xhtml" x="816" y="502" id="pf17339888921997" referenceLink="//@navigationRule.18/@navigationCase.0/@toViewId|" outlinks="pf17339888921982 pf17339888921981 pf17339888921985 pf17339890481839" inlinks="pf17339888921980 pf17339888921984 pf17339890481838" path="/Profile.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="ShowDriverRides.xhtml" x="912" y="360" id="pf173399668487012" referenceLink="//@navigationRule.24/@navigationCase.0/@toViewId|" outlinks="pf173399668486910 pf173399673739414 pf173399847217918" inlinks="pf173399673739413 pf173399847217919" path="/ShowDriverRides.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="ShowNext.xhtml" x="1140" y="288" id="pf173399847217920" referenceLink="//@navigationRule.25/@fromViewId|" outlinks="pf173399847217917 pf173399847217919 pf173399851223421" inlinks="pf173399847217918" path="/ShowNext.xhtml"/>
   <links id="pf17321339475108" target="pf173213394751010" source="pf17321339475107" outcome="create">
     <bendPoints d1Width="135" d1Height="-29" d2Width="-104" d2Height="80"/>
   </links>
@@ -38,4 +41,30 @@
   <links id="pf17339585642645" target="pf173213394751011" source="pf173213394751010" outcome="queryRides">
     <bendPoints d1Width="-197" d1Height="-12" d2Width="192" d2Height="-12"/>
   </links>
+  <links id="pf17339888921980" target="pf17339888921997" source="pf17321339475107" outcome="profile">
+    <bendPoints d1Width="226" d1Height="82" d2Width="-233" d2Height="-38"/>
+  </links>
+  <links id="pf17339888921982" target="pf173213394751010" source="pf17339888921997" outcome="createRide">
+    <bendPoints d1Width="-129" d1Height="14" d2Width="132" d2Height="14"/>
+  </links>
+  <links id="pf17339888921984" target="pf17339888921997" source="pf173213394751011" outcome="profile">
+    <bendPoints d1Width="336" d1Height="123" d2Width="-329" d2Height="135"/>
+  </links>
+  <links id="pf17339888921981" target="pf17321339475107" source="pf17339888921997" outcome="return">
+    <bendPoints d1Width="-221" d1Height="-75" d2Width="238" d2Height="45"/>
+  </links>
+  <links id="pf17339888921985" target="pf173213394751011" source="pf17339888921997" outcome="queryRides">
+    <bendPoints d1Width="-332" d1Height="91" d2Width="333" d2Height="91"/>
+  </links>
+  <links id="pf17339890481839" target="pf17337375308642" source="pf17339888921997" outcome="bye"/>
+  <links id="pf17339890481838" target="pf17339888921997" source="pf173213394751010" outcome="profile">
+    <bendPoints d1Width="131" d1Height="-12" d2Width="-130" d2Height="-12"/>
+  </links>
+  <links id="pf173399668486910" target="pf17321339475107" source="pf173399668487012" outcome="return"/>
+  <links id="pf173399673739414" target="pf17337375308642" source="pf173399668487012" outcome="bye"/>
+  <links id="pf173399673739413" target="pf173399668487012" source="pf17321339475107" outcome="show"/>
+  <links id="pf173399847217918" target="pf173399847217920" source="pf173399668487012" outcome="show"/>
+  <links id="pf173399847217917" target="pf17337375308642" source="pf173399847217920" outcome="bye"/>
+  <links id="pf173399847217919" target="pf173399668487012" source="pf173399847217920" outcome="back"/>
+  <links id="pf173399851223421" target="pf17321339475107" source="pf173399847217920" outcome="return"/>
 </pageflow:Pageflow>

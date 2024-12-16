@@ -98,6 +98,83 @@ public void createAndStoreErabiltzailea(String izena, String pasahitza, String r
     }
 }
 
+public boolean createAndStoreErabiltzailea(String izena, String pasahitza) {
+    Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+    session.beginTransaction();
+
+    try {
+        // Verificar si el nombre de usuario ya existe
+        String hql = "SELECT COUNT(e) FROM Erabiltzailea e WHERE e.izena = :izena";
+        Long count = (Long) session.createQuery(hql)
+            .setParameter("izena", izena)
+            .uniqueResult();
+
+        if (count > 0) {
+            // Usuario ya existe, revertir la transacción
+            System.out.println("El usuario ya existe en la base de datos.");
+            session.getTransaction().rollback();
+            return false;
+        }
+
+        // Crear la nueva entidad Erabiltzailea
+        Erabiltzailea erabiltzailea = new Erabiltzailea();
+        erabiltzailea.setIzena(izena);
+        erabiltzailea.setPasahitza(pasahitza);
+
+        // Guardar la entidad
+        session.persist(erabiltzailea);
+
+        // Confirmar la transacción
+        session.getTransaction().commit();
+        System.out.println("Usuario creado correctamente.");
+        return true;
+    } catch (Exception e) {
+        System.out.println("Error al crear el usuario: " + e.getMessage());
+
+        // Revertir la transacción en caso de error
+        if (session.getTransaction().isActive()) {
+            session.getTransaction().rollback();
+        }
+        return false;
+    }
+}
+
+public boolean deleteErabiltzailea(String izena, String pasahitza) {
+    Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+    session.beginTransaction();
+
+    try {
+        // Consultar el usuario basado en el nombre y contraseña
+        String hql = "FROM Erabiltzailea WHERE izena = :izena AND pasahitza = :pasahitza";
+        Erabiltzailea erabiltzailea = (Erabiltzailea) session.createQuery(hql)
+            .setParameter("izena", izena)
+            .setParameter("pasahitza", pasahitza)
+            .uniqueResult();
+
+        if (erabiltzailea != null) {
+            // Eliminar el usuario
+            session.delete(erabiltzailea);
+
+            // Confirmar la transacción
+            session.getTransaction().commit();
+            System.out.println("Usuario eliminado correctamente.");
+            return true;
+        } else {
+            System.out.println("Usuario no encontrado con las credenciales proporcionadas.");
+            session.getTransaction().rollback();
+            return false;
+        }
+    } catch (Exception e) {
+        System.out.println("Error al eliminar el usuario: " + e.getMessage());
+
+        // Revertir la transacción en caso de error
+        if (session.getTransaction().isActive()) {
+            session.getTransaction().rollback();
+        }
+        throw e;
+    }
+}
+
 public boolean userInDataBase(String izena, String pasahitza) {
     // Obtener la sesión de Hibernate y comenzar una transacción
     Session session = HibernateUtil.getSessionFactory().getCurrentSession();
@@ -167,17 +244,104 @@ public List<Object[]> getAllUsersAndPasswords() {
 public void createAndStoreRide(String from, String to, Date date, int nPlaces, float price, String driver) {
     Session session = HibernateUtil.getSessionFactory().getCurrentSession();
     session.beginTransaction();
-    
-    Ride r = new Ride();
-    r.setFrom(from);
-    r.setTo(to);
-    r.setDate(date);
-    r.setPrice(price);
-    r.setnPlaces(nPlaces);
-    r.setDriver(driver);  // Pasamos el nombre del conductor como String
-    
-    session.persist(r);
-    session.getTransaction().commit();
+
+    try {
+        // Verificar si ya existe un Ride con el mismo from, to y date
+        String hql = "SELECT COUNT(r) FROM Ride r WHERE r.from = :from AND r.to = :to AND r.date = :date";
+        Long count = (Long) session.createQuery(hql)
+            .setParameter("from", from)
+            .setParameter("to", to)
+            .setParameter("date", date)
+            .uniqueResult();
+
+        if (count > 0) {
+            throw new IllegalArgumentException("A ride in the same date already exists.");
+        }
+
+        // Crear y guardar el nuevo Ride
+        Ride r = new Ride();
+        r.setFrom(from);
+        r.setTo(to);
+        r.setDate(date);
+        r.setPrice(price);
+        r.setnPlaces(nPlaces);
+        r.setDriver(driver);  // Pasamos el nombre del conductor como String
+
+        session.persist(r);
+        session.getTransaction().commit();
+    } catch (Exception e) {
+        if (session.getTransaction().isActive()) {
+            session.getTransaction().rollback();
+        }
+        throw e; // Repropagar la excepción para que sea manejada por el llamador
+    }
+}
+
+public void createAndStorageDriver(String from, String to, Date date, float price, Integer nPlaces) {
+    Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+    session.beginTransaction();
+
+    try {
+        // Verificar si ya existe un Ride con el mismo from, to y date
+        String hql = "SELECT COUNT(r) FROM Ride r WHERE r.from = :from AND r.to = :to AND r.date = :date";
+        Long count = (Long) session.createQuery(hql)
+            .setParameter("from", from)
+            .setParameter("to", to)
+            .setParameter("date", date)
+            .uniqueResult();
+
+        // Si ya existe un viaje con los mismos parámetros, lanzamos una excepción
+        if (count > 0) {
+            throw new IllegalArgumentException("A ride with the same parameters already exists.");
+        }
+
+        // Crear y guardar el nuevo Ride
+        Ride r = new Ride();
+        r.setFrom(from);
+        r.setTo(to);
+        r.setDate(date);
+        r.setPrice(price);
+        r.setnPlaces(nPlaces);
+
+        session.persist(r);  // Guardamos el Ride en la base de datos
+        session.getTransaction().commit();
+    } catch (Exception e) {
+        // En caso de error, revertimos la transacción
+        if (session.getTransaction().isActive()) {
+            session.getTransaction().rollback();
+        }
+        throw e; // Repropagamos la excepción para que sea manejada por el llamador
+    }
+}
+
+
+
+public List<String> getAllDrivers() {
+	List<String> list = new ArrayList<>();
+	Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+    session.beginTransaction();
+	
+    try {
+    	
+        Query query = session.createQuery("select distinct r.driver from Ride r");
+
+        List<String> result = query.list();
+        
+        session.getTransaction().commit();
+
+        if (result.isEmpty()) {
+            System.out.println("No drivers found");
+        } else {
+            for (String fromValue : result) {
+                System.out.println("Driver " + fromValue);
+            }
+        
+        }
+        return result;
+    } catch(Exception e) {
+    	System.out.println("Error al obtener detalles del viaje: " + e.getMessage());
+    }
+    return null;
 }
 
 public List<Ride> getRideDetails(String from, String to, Date date) {
@@ -211,6 +375,45 @@ public List<Ride> getRideDetails(String from, String to, Date date) {
     } catch (Exception ex) {
         // Manejar errores
         System.out.println("Error al obtener detalles del viaje: " + ex.getMessage());
+
+        // Revertir la transacción en caso de error
+        if (session.getTransaction().isActive()) {
+            session.getTransaction().rollback();
+        }
+
+        return new ArrayList<>();
+    }
+}
+
+public List<Ride> getRidesByUser(String user) {
+    // Obtener la sesión de Hibernate y comenzar una transacción
+    System.out.println(">> DataAccess: getRidesByUser => user= " + user);
+    List<Ride> res = new ArrayList<>();
+    Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+    session.beginTransaction();
+
+    try {
+        // Crear la consulta HQL para buscar viajes asociados al usuario
+        Query query = session.createQuery("from Ride r where r.driver = :driver");
+
+        // Establecer el parámetro de usuario
+        query.setParameter("driver", user);
+
+        // Ejecutar la consulta y obtener los resultados
+        List<Ride> rides = query.list();
+
+        // Confirmar la transacción
+        session.getTransaction().commit();
+
+        // Mostrar los resultados en System.out
+        for (Ride ride : rides) {
+            res.add(ride);
+        }
+
+        return res;
+    } catch (Exception ex) {
+        // Manejar errores
+        System.out.println("Error al obtener viajes por usuario: " + ex.getMessage());
 
         // Revertir la transacción en caso de error
         if (session.getTransaction().isActive()) {

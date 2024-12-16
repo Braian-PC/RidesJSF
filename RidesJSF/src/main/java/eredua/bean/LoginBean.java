@@ -2,6 +2,9 @@ package eredua.bean;
 
 import java.util.Date;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+
 import eredua.domeinua.LoginGertaera;
 import nagusia.GertaerakSortu;
 
@@ -26,28 +29,41 @@ public class LoginBean {
 		return pasahitza;
 	}
 	public void setPasahitza(String pasahitza) {
-		this. pasahitza = pasahitza;
+		this.pasahitza = pasahitza;
 	}
 	public String getPasahitza2() {
 		return pasahitza2;
 	}
 	public void setPasahitza2(String pasahitza2) {
-		this. pasahitza2 = pasahitza2;
+		this.pasahitza2 = pasahitza2;
 	}
 	public Date getData() {
 		return data;
 		}
+	
 	public String egiaztatu() {
-		if(e.userInDataBase(izena, pasahitza)) {
-			return "ok";
-		}
-		return null;
+	    if (e.userInDataBase(izena, pasahitza)) {
+	        return "ok";
+	    }
+	    
+	    
+	    FacesContext.getCurrentInstance().addMessage(null, 
+	        new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "User or password incorrects"));
+	    return null;
 	}
+	
 	public String createUser() {
+		System.out.println(pasahitza + pasahitza2);
 		if(pasahitza.equals(pasahitza2)) {
-			e.createAndStoreErabiltzailea(izena, pasahitza, "driver");
-			return "success";
+			if(e.createAndStoreErabiltzailea(izena, pasahitza)) {
+				return "success";
+			};
+			FacesContext.getCurrentInstance().addMessage(null, 
+			        new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "User already exists"));
+			return null;
 		}
-		return "newuser";
+		FacesContext.getCurrentInstance().addMessage(null, 
+		        new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "The passwords are not the same"));
+		return null;
 	}	
 }

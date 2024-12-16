@@ -90,9 +90,17 @@ public class CreateBean {
 	        return null; // Evita la navegación
 	    }
 
+	    // Validar si la fecha es hoy o anterior
+	    if (data.compareTo(new Date()) <= 0) {
+	        FacesContext.getCurrentInstance().addMessage(null,
+	            new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+	            "Error", "The selected date cannot be today or before"));
+	        return null;
+	    }
+
 	    try {
 	        // Intentar crear y guardar el viaje en la base de datos
-	        db.createAndStoreRide(bidaiNondik, bidaiNora, data, eserlekuKop, prezioa, "Braian");
+	        db.createAndStoreRide(bidaiNondik, bidaiNora, data, eserlekuKop, prezioa, "Izaro");
 	        
 	        // Verificar si el viaje se guardó correctamente buscando los detalles
 	        List<Ride> l = db.getRideDetails(bidaiNora, bidaiNondik, data);
@@ -103,12 +111,26 @@ public class CreateBean {
 	            new FacesMessage(FacesMessage.SEVERITY_INFO, 
 	            "Success", "Ride successfully saved"));
 	        
-	        // Opcional: limpiar los campos después de guardar
+	        //Limpiar los campos después de guardar
 	        limpiarCampos();
 	        
-	        return "success"; // Puedes redirigir a otra página si lo deseas
+	        return null; // Puedes redirigir a otra página si lo deseas
 	        
-	    } catch (Exception e) {
+	    } 
+	    
+	    catch(IllegalArgumentException e) {
+	    	// Manejar cualquier error durante el guardado
+	        FacesContext.getCurrentInstance().addMessage(null,
+	            new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+	            "Error", e.getMessage()));
+
+	        System.out.println("Error: " + e.getMessage());
+	        e.printStackTrace();
+	        
+	        return null;
+	    }
+	    
+	    catch (Exception e) {
 	        // Manejar cualquier error durante el guardado
 	        FacesContext.getCurrentInstance().addMessage(null,
 	            new FacesMessage(FacesMessage.SEVERITY_ERROR, 

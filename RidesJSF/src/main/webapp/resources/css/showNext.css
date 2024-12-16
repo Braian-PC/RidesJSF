@@ -1,0 +1,179 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100vh; /* Ocupa toda la altura de la ventana */
+    background-color: #ffffff;
+}
+
+/* Estilo del encabezado */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* Alineación vertical */
+    background-color: #333333;
+    padding: 28px 20px; /* Reducido el padding para hacerlo más delgado */
+    width: 100%;
+    box-sizing: border-box;
+    color: white;
+}
+
+/* Imagen del encabezado con mayor tamaño */
+.header-left img {
+    width: 180px; /* Aumentado el tamaño de la imagen */
+    height: auto; /* Asegura que no se distorsione */
+    mix-blend-mode: lighten;
+}
+
+/* Contenedor central para centrar el título */
+.header-center {
+    flex-grow: 1; /* Ocupa el espacio restante */
+    display: flex;
+    justify-content: center; /* Asegura que el título esté centrado */
+}
+
+/* Título centrado, ahora con margen izquierdo */
+.header-title {
+    font-size: 2rem;
+    color: white;
+    margin: 0;
+    margin-left: 100px; /* Ajuste de margen a la izquierda para moverlo */
+}
+/* Botón de logout */
+.header-right .btn {
+    padding: 10px 20px;
+    background-color: #333333;  /* El mismo color de fondo que el header */
+    color: #ffffff;  /* Texto blanco para el botón */
+    border: 1px solid #d3d3d3;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;  /* Añadimos transición al brillo */
+}
+
+.header-right .btn:hover {
+    background-color: #555555;  /* Un tono ligeramente más claro que el color del header */
+    transform: scale(1.1);
+    box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.6);  /* Brillo suave alrededor */
+}
+
+.query-btn, .logout-btn {
+    margin-left: 10px; /* Agrega margen entre los botones */
+    padding: 10px 15px;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    border: none;
+}
+
+.query-btn {
+    background-color: #4CAF50; /* Verde */
+    color: white;
+}
+
+.query-btn:hover {
+    background-color: #45a049; /* Verde más oscuro */
+}
+
+.logout-btn {
+    background-color: #f44336; /* Rojo */
+    color: white;
+}
+
+.logout-btn:hover {
+    background-color: #d32f2f; /* Rojo más oscuro */
+}
+
+.main-container h3 {
+    margin-bottom: 20px; /* Espacio entre el encabezado y el contenedor principal */
+    text-align: center; /* Opcional: centra el texto del encabezado */
+    font-size: 2rem;
+}
+
+td {
+    position: relative; /* Establece un contenedor de referencia para los mensajes de error */
+}
+
+h:message {
+    position: absolute; /* Hace que el mensaje de error no afecte el flujo del diseño */
+    top: 100%; /* Coloca el mensaje justo debajo del contenido del `td` */
+    left: 0; /* Alinea el mensaje con el borde izquierdo del `td` */
+    color: red; /* Mantiene el color del mensaje */
+    font-size: 0.9em; /* Ajusta el tamaño de la fuente si es necesario */
+    white-space: nowrap; /* Evita que el texto se envuelva */
+}
+
+table {
+    border-collapse: separate; /* Asegura que las celdas mantengan su propio tamaño */
+    border-spacing: 10px; /* Espaciado entre las celdas si es necesario */
+}
+
+
+.main-container h3 {
+    margin-bottom: 0px; /* Reduce el espacio inferior del título */
+    text-align: center; /* Opcional: centra el título */
+}
+.main-container {
+    padding: 20px;
+    margin-top: 10x; /* Espacio entre el encabezado y el contenedor principal */
+    box-sizing: border-box;
+    /* Eliminamos el fondo, sombra y bordes redondeados (ajuste de la respuesta anterior) */
+    background-color: #f0f0f0; 
+    box-shadow: none;
+    border-radius: 0;
+}
+
+.container {
+    display: flex;  /* Flexbox para alinear los bloques */
+    flex-wrap: wrap;  /* Permite que los bloques se ajusten en pantallas pequeñas */
+    justify-content: center;  /* Alinea horizontalmente en el centro */
+    align-items: center;  /* Alinea verticalmente en el centro */
+    width: 100%;  /* El contenedor ocupa el 100% del cuadro principal */
+    gap: 20px;  /* Espacio entre los bloques aumentado ligeramente para balancear */
+}
+
+.block {
+    flex: 1 1 45%;  /* Cada bloque ocupa el 45% del contenedor */
+    margin: 10px;  /* Margen alrededor de los bloques */
+    padding: 20px;
+    text-align: justify;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;  /* Centra verticalmente el contenido dentro del bloque */
+    height: 100%;  /* Asegura que se use todo el espacio disponible del contenedor */
+}
+
+.block-center {
+    margin-top: 10px; /* Reducimos el margen superior para acercarlo al calendario */
+    padding: 10px;    /* Espaciado interno reducido para mayor compacidad */
+    display: flex;
+    justify-content: center; /* Centra horizontalmente los botones */
+    align-items: center; /* Centra verticalmente los botones */
+    gap: 10px; /* Espaciado entre los botones */
+}
+
+/* Estilo del pie de página */
+.footer {
+    background-color: #333333;  /* Gris muy oscuro para el pie de página */
+    padding: 15px 20px; /* Ajustado padding */
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between; /* Asegura que el contenido esté distribuido */
+    color: white; /* Letras blancas en el pie de página */
+    font-size: 1rem; /* Tamaño de fuente más pequeño para el pie de página */
+}
+
+.footer-left,
+.footer-right {
+    display: inline-block;
+    text-align: left; /* Alineación izquierda para el texto de la izquierda */
+}
+
+.footer-right {
+    text-align: right; /* Alineación derecha para el texto de la derecha */
+}

@@ -2,7 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
 
 <f:view>
     <h:head>
@@ -19,6 +20,7 @@
         </div>
 
         <!-- Formulario principal -->
+        <p:growl id="messages" showDetail="true" life="5300" />
         <div class="main-container">
             <h:form>
                 <table>
@@ -52,7 +54,10 @@
                     	<h:commandButton value="Create User" action="#{login.createUser}" />
                 	</p>
                 </div>
-                <h:messages style="color:blue"/>
+                <div class="container">
+                	<p>Already registered?</p>
+                <h:commandButton value="Log In Here" action="success" immediate="true"/>
+                </div>
             </h:form>
         </div>
 

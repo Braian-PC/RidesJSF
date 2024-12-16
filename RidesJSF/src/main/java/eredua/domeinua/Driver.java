@@ -14,19 +14,23 @@ public class Driver implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	@Id
+    @GeneratedValue
+    private Integer driverNumber;
+    
+    @Id
 	private String name;
 	private String email;
+	private Erabiltzailea user;
+	
 	
 	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.PERSIST)
-	private List<Ride> rides=new Vector<Ride>();
+	private List<Ride> rideList=new Vector<Ride>();
 
 	public Driver() {
 		super();
 	}
 
-	public Driver(String email, String name) {
-		this.email = email;
+	public Driver(String name) {
 		this.name = name;
 	}
 	
@@ -61,7 +65,7 @@ public class Driver implements Serializable {
 	 * @return Bet
 	 */
 	public Ride addRide(String from, String to, Date date, int nPlaces, float price)  {
-        Ride ride=new Ride(from,to,date,nPlaces,price, this);
+        Ride ride=new Ride();
         rides.add(ride);
         return ride;
 	}
@@ -110,6 +114,14 @@ public class Driver implements Serializable {
 			rides.remove(index);
 			return r;
 		} else return null;
+	}
+
+	public Erabiltzailea getUser() {
+		return user;
+	}
+
+	public void setUser(Erabiltzailea user) {
+		this.user = user;
 	}
 	
 }
