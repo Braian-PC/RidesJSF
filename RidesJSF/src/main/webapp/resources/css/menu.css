@@ -4,11 +4,10 @@ body {
     padding: 0;
     display: flex;
     flex-direction: column;
-    height: 100vh; /* Ocupa toda la altura de la ventana */
+    height: 100vh;
     background-color: #ffffff;
 }
 
-/* Contenedor de la página */
 .page-container {
     flex: 1;
     display: flex;
@@ -17,83 +16,76 @@ body {
     height: 100%;
 }
 
-/* Estilo del encabezado */
 .header {
     display: flex;
     justify-content: space-between;
-    align-items: center; /* Alineación vertical */
+    align-items: center;
     background-color: #333333;
-    padding: 28px 20px; /* Reducido el padding para hacerlo más delgado */
+    padding: 28px 20px;
     margin-bottom: 60px;
     width: 100%;
     box-sizing: border-box;
     color: white;
 }
 
-/* Imagen del encabezado con mayor tamaño */
 .header-left img {
-    width: 180px; /* Aumentado el tamaño de la imagen */
-    height: auto; /* Asegura que no se distorsione */
+    width: 180px;
+    height: auto;
     mix-blend-mode: lighten;
 }
 
-/* Contenedor central para centrar el título */
 .header-center {
-    flex-grow: 1; /* Ocupa el espacio restante */
+    flex-grow: 1;
     display: flex;
-    justify-content: center; /* Asegura que el título esté centrado */
+    justify-content: center;
 }
 
-/* Título centrado, ahora con margen izquierdo */
 .header-title {
     font-size: 2rem;
     color: white;
     margin: 0;
-    margin-left: -70px; /* Ajuste de margen a la izquierda para moverlo */
+    margin-left: -70px;
 }
 
-/* Botón de logout */
 .header-right .btn {
     padding: 10px 20px;
-    background-color: #333333;  /* El mismo color de fondo que el header */
-    color: #ffffff;  /* Texto blanco para el botón */
+    background-color: #333333;
+    color: #ffffff;
     border: 1px solid #d3d3d3;
     border-radius: 8px;
     cursor: pointer;
     font-size: 1rem;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;  /* Añadimos transición al brillo */
+    transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
 }
 
 .header-right .btn:hover {
-    background-color: #555555;  /* Un tono ligeramente más claro que el color del header */
+    background-color: #555555;
     transform: scale(1.1);
-    box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.6);  /* Brillo suave alrededor */
+    box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.6);
 }
 
-/* Contenedor principal */
 .main-container {
-	background-color: #f0f0f0;
+    background-color: #f0f0f0;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     flex: 1;
-    padding: -11px 20px; /* Reducir padding superior para acercar la tabla */
-    margin-top: -57px;  /* Margen negativo para mover la tabla hacia arriba */
+    padding: -11px 20px;
+    margin-top: -57px;
     box-sizing: border-box;
 }
 
 .main-container h3 {
-    font-size: 2rem; /* Ajustamos el tamaño a más pequeño */
-    margin-top:-17px;
-    margin-bottom: 20px; /* Espaciado inferior */
+    font-size: 2rem;
+    margin-top: -17px;
+    margin-bottom: 20px;
     text-align: center;
 }
 
-/* Tabla de botones */
 table {
-    width: auto; /* Evita que la tabla sea demasiado ancha */
+    width: auto;
     margin-top: 10px;
     text-align: center;
     box-sizing: border-box;
@@ -109,7 +101,7 @@ table .btn {
     font-size: 1.5rem;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     transition: background-color 0.3s, box-shadow 0.3s, transform 0.3s;
-    margin: 10px; /* Espaciado entre botones */
+    margin: 10px;
 }
 
 table .btn:hover {
@@ -118,24 +110,23 @@ table .btn:hover {
     transform: scale(1.1);
 }
 
-/* Estilo del pie de página */
 .footer {
-    background-color: #333333;  /* Gris muy oscuro para el pie de página */
-    padding: 15px 20px; /* Ajustado padding */
+    background-color: #333333;
+    padding: 15px 20px;
     width: 100%;
     box-sizing: border-box;
     display: flex;
-    justify-content: space-between; /* Asegura que el contenido esté distribuido */
-    color: white; /* Letras blancas en el pie de página */
-    font-size: 1rem; /* Tamaño de fuente más pequeño para el pie de página */
+    justify-content: space-between;
+    color: white;
+    font-size: 1rem;
 }
 
 .footer-left,
 .footer-right {
     display: inline-block;
-    text-align: left; /* Alineación izquierda para el texto de la izquierda */
+    text-align: left;
 }
 
 .footer-right {
-    text-align: right; /* Alineación derecha para el texto de la derecha */
+    text-align: right;
 }

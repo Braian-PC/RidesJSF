@@ -76,21 +76,17 @@ public class CreateBean {
 	}
 	
 	public String creator() {
-	    // Validación de campos obligatorios
 	    if (bidaiNondik == null || bidaiNondik.trim().isEmpty() ||
 	        bidaiNora == null || bidaiNora.trim().isEmpty() ||
 	        eserlekuKop == 0 ||
 	        prezioa == 0 ||
 	        data == null) {
 
-	        // Agregar mensaje de error global
 	        FacesContext.getCurrentInstance().addMessage(null,
 	            new FacesMessage(FacesMessage.SEVERITY_ERROR, 
 	            "Error", "Mesdez, sartu datuak"));
-	        return null; // Evita la navegación
+	        return null; 
 	    }
-
-	    // Validar si la fecha es hoy o anterior
 	    if (data.compareTo(new Date()) <= 0) {
 	        FacesContext.getCurrentInstance().addMessage(null,
 	            new FacesMessage(FacesMessage.SEVERITY_ERROR, 
@@ -99,27 +95,21 @@ public class CreateBean {
 	    }
 
 	    try {
-	        // Intentar crear y guardar el viaje en la base de datos
-	        db.createAndStoreRide(bidaiNondik, bidaiNora, data, eserlekuKop, prezioa, "Izaro");
+	        db.createAndStoreRide(bidaiNondik, bidaiNora, data, eserlekuKop, prezioa);
 	        
-	        // Verificar si el viaje se guardó correctamente buscando los detalles
 	        List<Ride> l = db.getRideDetails(bidaiNora, bidaiNondik, data);
 	        System.out.println(l);
-	        
-	        // Si se llega aquí sin excepción, el viaje se guardó con éxito
 	        FacesContext.getCurrentInstance().addMessage(null,
 	            new FacesMessage(FacesMessage.SEVERITY_INFO, 
 	            "Success", "Ride successfully saved"));
 	        
-	        //Limpiar los campos después de guardar
 	        limpiarCampos();
 	        
-	        return null; // Puedes redirigir a otra página si lo deseas
+	        return null;
 	        
 	    } 
 	    
 	    catch(IllegalArgumentException e) {
-	    	// Manejar cualquier error durante el guardado
 	        FacesContext.getCurrentInstance().addMessage(null,
 	            new FacesMessage(FacesMessage.SEVERITY_ERROR, 
 	            "Error", e.getMessage()));
@@ -131,7 +121,6 @@ public class CreateBean {
 	    }
 	    
 	    catch (Exception e) {
-	        // Manejar cualquier error durante el guardado
 	        FacesContext.getCurrentInstance().addMessage(null,
 	            new FacesMessage(FacesMessage.SEVERITY_ERROR, 
 	            "Error", e.getMessage()));
@@ -143,7 +132,6 @@ public class CreateBean {
 	    }
 	}
 
-	// Método opcional para limpiar los campos después de guardar
 	private void limpiarCampos() {
 	    bidaiNondik = null;
 	    bidaiNora = null;

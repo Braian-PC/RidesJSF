@@ -15,6 +15,5 @@
 <property name="hibernate.format_sql">true</property>
 <property name="hibernate.current_session_context_class">thread</property>
 <mapping class="eredua.domeinua.CurrentUser"/>
-
-    </session-factory>
+</session-factory>
 </hibernate-configuration>

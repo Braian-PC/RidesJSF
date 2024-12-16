@@ -46,7 +46,6 @@ public class LoginBean {
 	        return "ok";
 	    }
 	    
-	    
 	    FacesContext.getCurrentInstance().addMessage(null, 
 	        new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "User or password incorrects"));
 	    return null;
@@ -56,6 +55,7 @@ public class LoginBean {
 		System.out.println(pasahitza + pasahitza2);
 		if(pasahitza.equals(pasahitza2)) {
 			if(e.createAndStoreErabiltzailea(izena, pasahitza)) {
+				e.createAndStoreCurrentUser(izena, pasahitza);
 				return "success";
 			};
 			FacesContext.getCurrentInstance().addMessage(null, 

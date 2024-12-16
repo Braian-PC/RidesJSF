@@ -33,8 +33,6 @@
         </h:form>
     </div>
     
-    <!-- Add p:growl for success messages -->
-    <!-- Agregar required="true" a los inputText -->
     <p:growl id="messages" showDetail="true" life="5300" />
     
 <h:form id="nireForm">
@@ -49,11 +47,12 @@
 						<td>
 							<h:selectOneMenu value="#{showDriverRides.driver}">
 								<f:selectItems value="#{showDriverRides.driverList}"/>
+								<f:ajax event="change" listener="#{showDriverRides.updateSetDriver}"/>
 							</h:selectOneMenu>
 						</td>
 					</tr>
 					<tr>
-		                <td><h:commandButton class="btn" value="Search" action="#{showDriverRides.saveDriver}" immediate="true" /></td>
+		                <td><h:commandButton class="btn" value="Search" action="show" immediate="true" /></td>
 		            </tr>
 				</table>
 			</div>

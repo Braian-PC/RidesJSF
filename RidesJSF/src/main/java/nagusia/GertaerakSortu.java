@@ -1,7 +1,8 @@
 package nagusia;
 
+
 import eredua.HibernateUtil;
-import eredua.domeinua.Driver;
+import eredua.domeinua.CurrentUser;
 import eredua.domeinua.Erabiltzailea;
 import eredua.domeinua.LoginGertaera;
 import eredua.domeinua.Ride;  // Asegúrate de que esta línea apunte a la clase Ride correcta
@@ -9,7 +10,7 @@ import eredua.domeinua.Ride;  // Asegúrate de que esta línea apunte a la clase
 
 import org.hibernate.Query;
 import org.hibernate.Session;
-
+import org.hibernate.Transaction;
 
 import java.util.*;
 public class GertaerakSortu {
@@ -31,7 +32,7 @@ session.persist(e);
 session.getTransaction().commit();
 }
 
-private void createAndStoreLoginGertaera(String erabil,boolean login,Date data) {
+public void createAndStoreLoginGertaera(String erabil,boolean login,Date data) {
 Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 session.beginTransaction();
 Query q= session.createQuery("from Erabiltzailea where izena= :erabiltzailea");
@@ -76,21 +77,17 @@ public void createAndStoreErabiltzailea(String izena, String pasahitza, String r
     session.beginTransaction();
 
     try {
-        // Crear o cargar la entidad Erabiltzailea
         Erabiltzailea erabiltzailea = new Erabiltzailea();
         erabiltzailea.setIzena(izena);
         erabiltzailea.setPasahitza(pasahitza);
         erabiltzailea.setMota(role);
 
-        // Usar merge en lugar de persist para manejar entidades detached
         session.merge(erabiltzailea);
 
-        // Confirmar la transacción
         session.getTransaction().commit();
     } catch (Exception e) {
         System.out.println("Error al crear el usuario: " + e.getMessage());
 
-        // Revertir la transacción en caso de error
         if (session.getTransaction().isActive()) {
             session.getTransaction().rollback();
         }
@@ -103,35 +100,29 @@ public boolean createAndStoreErabiltzailea(String izena, String pasahitza) {
     session.beginTransaction();
 
     try {
-        // Verificar si el nombre de usuario ya existe
         String hql = "SELECT COUNT(e) FROM Erabiltzailea e WHERE e.izena = :izena";
         Long count = (Long) session.createQuery(hql)
             .setParameter("izena", izena)
             .uniqueResult();
 
         if (count > 0) {
-            // Usuario ya existe, revertir la transacción
             System.out.println("El usuario ya existe en la base de datos.");
             session.getTransaction().rollback();
             return false;
         }
 
-        // Crear la nueva entidad Erabiltzailea
         Erabiltzailea erabiltzailea = new Erabiltzailea();
         erabiltzailea.setIzena(izena);
         erabiltzailea.setPasahitza(pasahitza);
 
-        // Guardar la entidad
         session.persist(erabiltzailea);
 
-        // Confirmar la transacción
         session.getTransaction().commit();
         System.out.println("Usuario creado correctamente.");
         return true;
     } catch (Exception e) {
         System.out.println("Error al crear el usuario: " + e.getMessage());
 
-        // Revertir la transacción en caso de error
         if (session.getTransaction().isActive()) {
             session.getTransaction().rollback();
         }
@@ -144,7 +135,6 @@ public boolean deleteErabiltzailea(String izena, String pasahitza) {
     session.beginTransaction();
 
     try {
-        // Consultar el usuario basado en el nombre y contraseña
         String hql = "FROM Erabiltzailea WHERE izena = :izena AND pasahitza = :pasahitza";
         Erabiltzailea erabiltzailea = (Erabiltzailea) session.createQuery(hql)
             .setParameter("izena", izena)
@@ -152,12 +142,12 @@ public boolean deleteErabiltzailea(String izena, String pasahitza) {
             .uniqueResult();
 
         if (erabiltzailea != null) {
-            // Eliminar el usuario
+        	
             session.delete(erabiltzailea);
 
-            // Confirmar la transacción
             session.getTransaction().commit();
             System.out.println("Usuario eliminado correctamente.");
+            this.deleteRidesByDriver(izena);
             return true;
         } else {
             System.out.println("Usuario no encontrado con las credenciales proporcionadas.");
@@ -167,7 +157,6 @@ public boolean deleteErabiltzailea(String izena, String pasahitza) {
     } catch (Exception e) {
         System.out.println("Error al eliminar el usuario: " + e.getMessage());
 
-        // Revertir la transacción en caso de error
         if (session.getTransaction().isActive()) {
             session.getTransaction().rollback();
         }
@@ -176,29 +165,23 @@ public boolean deleteErabiltzailea(String izena, String pasahitza) {
 }
 
 public boolean userInDataBase(String izena, String pasahitza) {
-    // Obtener la sesión de Hibernate y comenzar una transacción
+	this.createAndStoreCurrentUser(izena, pasahitza);
     Session session = HibernateUtil.getSessionFactory().getCurrentSession();
     session.beginTransaction();
 
     try {
-        // Crear la consulta HQL para buscar el usuario por nombre y contraseña
         Query query = session.createQuery("from Erabiltzailea where izena = :username and pasahitza = :password");
         query.setParameter("username", izena);
         query.setParameter("password", pasahitza);
 
-        // Ejecutar la consulta y obtener el resultado
         List result = query.list();
 
-        // Confirmar la transacción
         session.getTransaction().commit();
 
-        // Verificar si hay un resultado
         return !result.isEmpty();
     } catch (Exception ex) {
-        // Manejar errores
         System.out.println("Error al verificar las credenciales: " + ex.getMessage());
 
-        // Revertir la transacción en caso de error
         if (session.getTransaction().isActive()) {
             session.getTransaction().rollback();
         }
@@ -208,31 +191,24 @@ public boolean userInDataBase(String izena, String pasahitza) {
 }
 
 public List<Object[]> getAllUsersAndPasswords() {
-    // Obtener la sesión de Hibernate y comenzar una transacción
     Session session = HibernateUtil.getSessionFactory().getCurrentSession();
     session.beginTransaction();
 
     try {
-        // Crear la consulta HQL para obtener todos los usuarios y contraseñas
         Query query = session.createQuery("select izena, pasahitza from Erabiltzailea");
 
-        // Ejecutar la consulta y obtener los resultados
         List<Object[]> result = query.list();
 
-        // Confirmar la transacción
         session.getTransaction().commit();
 
-        // Mostrar la lista en System.out
         for (Object[] row : result) {
             System.out.println("Usuario: " + row[0] + ", Contraseña: " + row[1]);
         }
 
         return result;
     } catch (Exception ex) {
-        // Manejar errores
         System.out.println("Error al obtener usuarios y contraseñas: " + ex.getMessage());
 
-        // Revertir la transacción en caso de error
         if (session.getTransaction().isActive()) {
             session.getTransaction().rollback();
         }
@@ -241,12 +217,18 @@ public List<Object[]> getAllUsersAndPasswords() {
     }
 }
 
-public void createAndStoreRide(String from, String to, Date date, int nPlaces, float price, String driver) {
+public void createAndStoreRide(String from, String to, Date date, int nPlaces, float price) {
     Session session = HibernateUtil.getSessionFactory().getCurrentSession();
     session.beginTransaction();
 
     try {
-        // Verificar si ya existe un Ride con el mismo from, to y date
+        String hqlDriver = "SELECT c.izena FROM CurrentUser c";
+        String driver = (String) session.createQuery(hqlDriver).uniqueResult();
+
+        if (driver == null) {
+            throw new IllegalStateException("No se encontró el conductor en CurrentUser.");
+        }
+
         String hql = "SELECT COUNT(r) FROM Ride r WHERE r.from = :from AND r.to = :to AND r.date = :date";
         Long count = (Long) session.createQuery(hql)
             .setParameter("from", from)
@@ -257,15 +239,13 @@ public void createAndStoreRide(String from, String to, Date date, int nPlaces, f
         if (count > 0) {
             throw new IllegalArgumentException("A ride in the same date already exists.");
         }
-
-        // Crear y guardar el nuevo Ride
         Ride r = new Ride();
         r.setFrom(from);
         r.setTo(to);
         r.setDate(date);
         r.setPrice(price);
         r.setnPlaces(nPlaces);
-        r.setDriver(driver);  // Pasamos el nombre del conductor como String
+        r.setDriver(driver);
 
         session.persist(r);
         session.getTransaction().commit();
@@ -273,16 +253,16 @@ public void createAndStoreRide(String from, String to, Date date, int nPlaces, f
         if (session.getTransaction().isActive()) {
             session.getTransaction().rollback();
         }
-        throw e; // Repropagar la excepción para que sea manejada por el llamador
+        throw e;
     }
 }
+
 
 public void createAndStorageDriver(String from, String to, Date date, float price, Integer nPlaces) {
     Session session = HibernateUtil.getSessionFactory().getCurrentSession();
     session.beginTransaction();
 
     try {
-        // Verificar si ya existe un Ride con el mismo from, to y date
         String hql = "SELECT COUNT(r) FROM Ride r WHERE r.from = :from AND r.to = :to AND r.date = :date";
         Long count = (Long) session.createQuery(hql)
             .setParameter("from", from)
@@ -290,12 +270,9 @@ public void createAndStorageDriver(String from, String to, Date date, float pric
             .setParameter("date", date)
             .uniqueResult();
 
-        // Si ya existe un viaje con los mismos parámetros, lanzamos una excepción
         if (count > 0) {
             throw new IllegalArgumentException("A ride with the same parameters already exists.");
         }
-
-        // Crear y guardar el nuevo Ride
         Ride r = new Ride();
         r.setFrom(from);
         r.setTo(to);
@@ -303,14 +280,13 @@ public void createAndStorageDriver(String from, String to, Date date, float pric
         r.setPrice(price);
         r.setnPlaces(nPlaces);
 
-        session.persist(r);  // Guardamos el Ride en la base de datos
+        session.persist(r);
         session.getTransaction().commit();
     } catch (Exception e) {
-        // En caso de error, revertimos la transacción
         if (session.getTransaction().isActive()) {
             session.getTransaction().rollback();
         }
-        throw e; // Repropagamos la excepción para que sea manejada por el llamador
+        throw e;
     }
 }
 
@@ -345,7 +321,6 @@ public List<String> getAllDrivers() {
 }
 
 public List<Ride> getRideDetails(String from, String to, Date date) {
-    // Obtener la sesión de Hibernate y comenzar una transacción
 	System.out.println(">> DataAccess: getRides=> from= "+from+" to= "+to+" date "+date);
 	List<Ride> res = new ArrayList<>();	
     Session session = HibernateUtil.getSessionFactory().getCurrentSession();
@@ -355,28 +330,22 @@ public List<Ride> getRideDetails(String from, String to, Date date) {
         
         Query query = session.createQuery("from Ride r where r.from = :from and r.to = :to and r.date = :date");
         
-        // Establecer los parámetros de la consulta
         query.setParameter("from", from);
         query.setParameter("to", to);
         query.setParameter("date", date);
 
-        // Ejecutar la consulta y obtener los resultados
         List<Ride> rides = query.list();
 
-        // Confirmar la transacción
         session.getTransaction().commit();
 
-        // Mostrar los resultados en System.out
         for (Ride ride:rides){
         	res.add(ride);
  		  }
 
         return res;
     } catch (Exception ex) {
-        // Manejar errores
         System.out.println("Error al obtener detalles del viaje: " + ex.getMessage());
 
-        // Revertir la transacción en caso de error
         if (session.getTransaction().isActive()) {
             session.getTransaction().rollback();
         }
@@ -386,36 +355,28 @@ public List<Ride> getRideDetails(String from, String to, Date date) {
 }
 
 public List<Ride> getRidesByUser(String user) {
-    // Obtener la sesión de Hibernate y comenzar una transacción
     System.out.println(">> DataAccess: getRidesByUser => user= " + user);
     List<Ride> res = new ArrayList<>();
     Session session = HibernateUtil.getSessionFactory().getCurrentSession();
     session.beginTransaction();
 
     try {
-        // Crear la consulta HQL para buscar viajes asociados al usuario
         Query query = session.createQuery("from Ride r where r.driver = :driver");
 
-        // Establecer el parámetro de usuario
         query.setParameter("driver", user);
 
-        // Ejecutar la consulta y obtener los resultados
         List<Ride> rides = query.list();
 
-        // Confirmar la transacción
         session.getTransaction().commit();
 
-        // Mostrar los resultados en System.out
         for (Ride ride : rides) {
             res.add(ride);
         }
 
         return res;
     } catch (Exception ex) {
-        // Manejar errores
         System.out.println("Error al obtener viajes por usuario: " + ex.getMessage());
 
-        // Revertir la transacción en caso de error
         if (session.getTransaction().isActive()) {
             session.getTransaction().rollback();
         }
@@ -426,24 +387,18 @@ public List<Ride> getRidesByUser(String user) {
 
 
 public List<String> getAllFroms() {
-    // Obtener la sesión de Hibernate y comenzar una transacción
     Session session = HibernateUtil.getSessionFactory().getCurrentSession();
     session.beginTransaction();
 
     try {
-        // Crear la consulta HQL para obtener todos los valores de "from" en la tabla Ride
         String hql = "select distinct r.from from Ride r";
         
-        // Ejecutar la consulta
         Query query = session.createQuery(hql);
 
-        // Obtener los resultados como una lista de cadenas
         List<String> result = query.list();
 
-        // Confirmar la transacción
         session.getTransaction().commit();
 
-        // Comprobar si hay resultados y evitar el acceso a un índice vacío
         if (result.isEmpty()) {
             System.out.println("No se encontraron registros para 'from'.");
         } else {
@@ -454,10 +409,8 @@ public List<String> getAllFroms() {
 
         return result;
     } catch (Exception ex) {
-        // Manejar errores
         System.out.println("Error al obtener los valores 'from': " + ex.getMessage());
 
-        // Revertir la transacción en caso de error
         if (session.getTransaction().isActive()) {
             session.getTransaction().rollback();
         }
@@ -467,27 +420,21 @@ public List<String> getAllFroms() {
 }
 
 public List<String> getAllToByFrom(String from) {
-    // Obtener la sesión de Hibernate y comenzar una transacción
     Session session = HibernateUtil.getSessionFactory().getCurrentSession();
     session.beginTransaction();
 
     try {
-        // Crear la consulta HQL para obtener todos los valores "to" donde "from" sea igual al parámetro
         String hql = "select r.to from Ride r where r.from = :from";
 
         // Ejecutar la consulta
         Query query = session.createQuery(hql);
 
-        // Establecer el parámetro "from" en la consulta
         query.setParameter("from", from);
 
-        // Obtener los resultados como una lista de cadenas
         List<String> result = query.list();
 
-        // Confirmar la transacción
         session.getTransaction().commit();
 
-        // Comprobar si hay resultados y manejar el caso de lista vacía
         if (result.isEmpty()) {
             System.out.println("No se encontraron destinos ('to') para el valor 'from' proporcionado.");
         } else {
@@ -498,10 +445,8 @@ public List<String> getAllToByFrom(String from) {
 
         return result;
     } catch (Exception ex) {
-        // Manejar errores
         System.out.println("Error al obtener los destinos 'to': " + ex.getMessage());
 
-        // Revertir la transacción en caso de error
         if (session.getTransaction().isActive()) {
             session.getTransaction().rollback();
         }
@@ -510,38 +455,207 @@ public List<String> getAllToByFrom(String from) {
     }
 }
 
+public boolean createAndStoreCurrentUser(String izena, String pasahitza) {
+    Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+    session.beginTransaction();
 
-public static void main(String[] args) {
-GertaerakSortu e = new GertaerakSortu();
-System.out.println("Gertaeren sorkuntza:");
-////e.createAndStoreLoginGertaera(1L,"Anek ondo egin du logina", new Date());
-////e.createAndStoreLoginGertaera(2L,"Nerea saiatu da login egiten", new Date());
-////e.createAndStoreLoginGertaera(3L,"Kepak ondo egin du logina", new Date());
-//e.createAndStoreLoginGertaera("Anek ondo egin du logina", new Date());
-//e.createAndStoreLoginGertaera("Nerea saiatu da login egiten", new Date());
-//e.createAndStoreLoginGertaera("Kepak ondo egin du logina", new Date());
-//
-//List gertaerak = e.gertaerakZerrendatu();
-//for (int i = 0; i < gertaerak.size(); i++) {
-//LoginGertaera ev = (LoginGertaera) gertaerak.get(i);
-//System.out.println("Id: " + ev.getId() + " Deskribapena: "
-//+ ev.getDeskribapena() + " Data: " + ev.getData());
-//}
-//System.out.println("Gertaeren zerrenda:");}
-e.createAndStoreErabiltzailea("Ane", "123", "driver");
-e.createAndStoreLoginGertaera("Ane",true, new Date());
-e.createAndStoreLoginGertaera("Ane",false, new Date());
-System.out.println("Gertaeren zerrenda:");
-Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-session.beginTransaction();
-List result = session.createQuery("from LoginGertaera").list();
-for (int i = 0; i < result.size(); i++) {
-LoginGertaera ev = (LoginGertaera) result.get(i);
-System.out.println("Id: " + ev.getId() + " Deskribapena: " +
-ev.getDeskribapena() + " Data: " + ev.getData()+ " Login: " + ev.isLogin());
+    try {
+        String deleteHql = "DELETE FROM CurrentUser";
+        session.createQuery(deleteHql).executeUpdate();
+
+        CurrentUser erabiltzailea = new CurrentUser();
+        erabiltzailea.setIzena(izena);
+        erabiltzailea.setPasahitza(pasahitza);
+
+        session.persist(erabiltzailea);
+
+        session.getTransaction().commit();
+        System.out.println("Tabla limpiada y usuario creado correctamente.");
+        return true;
+    } catch (Exception e) {
+        System.out.println("Error al crear el usuario: " + e.getMessage());
+
+        if (session.getTransaction().isActive()) {
+            session.getTransaction().rollback();
+        }
+        return false;
+    }
 }
-session.getTransaction().commit();
 
+public boolean updateUserAndRides(String newUsername, String newPassword) {
+    Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+    session.beginTransaction();
+
+    try {
+        String hqlCurrentUser = "FROM CurrentUser c"; 
+        CurrentUser currentUser = (CurrentUser) session.createQuery(hqlCurrentUser)
+            .uniqueResult();
+
+        if (currentUser == null) {
+            System.out.println("No se encontró el usuario actual.");
+            return false; 
+        }
+
+        String oldUsername = currentUser.getIzena();  
+
+        String hqlUpdateRides = "UPDATE Ride r SET r.driver = :newUsername WHERE r.driver = :oldUsername";
+        int updatedRides = session.createQuery(hqlUpdateRides)
+            .setParameter("newUsername", newUsername)
+            .setParameter("oldUsername", oldUsername)
+            .executeUpdate();
+
+        if (updatedRides > 0) {
+            System.out.println(updatedRides + " rides actualizados.");
+        } else {
+            System.out.println("No se encontraron rides para actualizar.");
+        }
+
+        String hqlUpdateErabiltzailea = "UPDATE Erabiltzailea e SET e.izena = :newUsername, e.pasahitza = :newPassword WHERE e.izena = :oldUsername";
+        int updatedErabiltzailea = session.createQuery(hqlUpdateErabiltzailea)
+            .setParameter("newUsername", newUsername)
+            .setParameter("newPassword", newPassword)
+            .setParameter("oldUsername", oldUsername)
+            .executeUpdate();
+
+        if (updatedErabiltzailea > 0) {
+            System.out.println(updatedErabiltzailea + " usuarios actualizados en Erabiltzailea.");
+        } else {
+            System.out.println("No se encontraron usuarios para actualizar en Erabiltzailea.");
+        }
+
+        session.delete(currentUser);
+
+        CurrentUser newUser = new CurrentUser();
+        newUser.setIzena(newUsername);
+        newUser.setPasahitza(newPassword); 
+        session.persist(newUser);
+
+        session.getTransaction().commit();
+        System.out.println("Usuario y rides actualizados correctamente.");
+        return true;
+    } catch (Exception e) {
+        System.out.println("Error al actualizar el usuario y los rides: " + e.getMessage());
+
+        if (session.getTransaction().isActive()) {
+            session.getTransaction().rollback();
+        }
+        return false;
+    }
+}
+
+public String getCurrentUserIzena() {
+    Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+    session.beginTransaction(); 
+
+    try {
+        String hql = "SELECT c.izena FROM CurrentUser c";
+        Query query = session.createQuery(hql);
+        String izena = (String) query.uniqueResult();
+
+        session.getTransaction().commit();
+
+        return izena;
+    } catch (Exception e) {
+        System.out.println("Error al obtener el usuario actual: " + e.getMessage());
+        if (session.getTransaction().isActive()) {
+            session.getTransaction().rollback();
+        }
+        return null;
+    }
+}
+
+
+public boolean deleteRidesByDriver(String driverName) {
+    Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+    session.beginTransaction();
+
+    try {
+        String hql = "DELETE FROM Ride r WHERE r.driver = :driverName";
+        int deletedRides = session.createQuery(hql)
+            .setParameter("driverName", driverName)
+            .executeUpdate();
+
+        if (deletedRides > 0) {
+            System.out.println(deletedRides + " ride(s) eliminado(s) para el conductor " + driverName);
+        } else {
+            System.out.println("No se encontraron rides para eliminar para el conductor " + driverName);
+        }
+
+        session.getTransaction().commit();
+        return true;
+    } catch (Exception e) {
+        System.out.println("Error al eliminar los rides: " + e.getMessage());
+
+        if (session.getTransaction().isActive()) {
+            session.getTransaction().rollback();
+        }
+        return false;
+    }
+}
+
+public boolean updateCurrentUserSearch(String newSearchValue) {
+    Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+    Transaction transaction = session.beginTransaction();
+
+    try {
+        String hqlUpdate = "UPDATE CurrentUser c SET c.search = :search";
+        int updatedCount = session.createQuery(hqlUpdate)
+            .setParameter("search", newSearchValue)
+            .executeUpdate();
+
+        if (updatedCount > 0) {
+            System.out.println("Search actualizado exitosamente.");
+        } else {
+            System.out.println("No se encontró un usuario para actualizar.");
+        }
+
+        transaction.commit();
+        return true;
+    } catch (Exception e) {
+        System.out.println("Error al actualizar el search: " + e.getMessage());
+        e.printStackTrace();
+
+        if (transaction.isActive()) {
+            transaction.rollback();
+        }
+        return false;
+    }
+}
+
+
+
+    public String getCurrentUserSearch() {
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+
+        try {
+            String hql = "SELECT c.search FROM CurrentUser c";
+            String searchValue = (String) session.createQuery(hql).uniqueResult();
+
+            if (searchValue != null) {
+                return searchValue;
+            } else {
+                System.out.println("No se encontró el valor de 'search' en CurrentUser");
+                return null;
+            }
+
+        } catch (Exception e) {
+            System.out.println("Error al obtener el valor de 'search': " + e.getMessage());
+            
+            if (session.getTransaction().isActive()) {
+                session.getTransaction().rollback();
+            }
+            return null;
+        } finally {
+            session.getTransaction().commit();
+        }
+    }
+
+    
+public static void main(String[] args) {
+	GertaerakSortu e = new GertaerakSortu();
+	System.out.println("Gertaeren sorkuntza:");
+	e.updateCurrentUserSearch(null);
 }
 
 public boolean compareUser(String izena, String pasahitza) {
@@ -550,8 +664,6 @@ public boolean compareUser(String izena, String pasahitza) {
 	}
 	return false;
 }
-
-
 
 public void printObjMemDB(String azalpena, Erabiltzailea e) {
 System.out.print("\tMem:<"+e+"> DB:<"+GertaerakBerreskuratuJDBC.getErabiltzaileaJDBC(e)+"> =>");

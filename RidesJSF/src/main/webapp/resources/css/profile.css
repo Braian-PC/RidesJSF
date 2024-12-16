@@ -4,64 +4,67 @@ body {
     padding: 0;
     display: flex;
     flex-direction: column;
-    height: 100vh; /* Ocupa toda la altura de la ventana */
+    height: 100vh;
     background-color: #ffffff;
 }
 
-/* Estilo del encabezado */
+.page-container {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
 .header {
     display: flex;
     justify-content: space-between;
-    align-items: center; /* Alineación vertical */
+    align-items: center;
     background-color: #333333;
-    padding: 28px 20px; /* Reducido el padding para hacerlo más delgado */
+    padding: 28px 20px;
     width: 100%;
     box-sizing: border-box;
     color: white;
+    margin: 0;
 }
 
-/* Imagen del encabezado con mayor tamaño */
 .header-left img {
-    width: 180px; /* Aumentado el tamaño de la imagen */
-    height: auto; /* Asegura que no se distorsione */
+    width: 180px;
+    height: auto;
     mix-blend-mode: lighten;
 }
 
-/* Contenedor central para centrar el título */
 .header-center {
-    flex-grow: 1; /* Ocupa el espacio restante */
+    flex-grow: 1;
     display: flex;
-    justify-content: center; /* Asegura que el título esté centrado */
+    justify-content: center;
 }
 
-/* Título centrado, ahora con margen izquierdo */
 .header-title {
     font-size: 2rem;
     color: white;
     margin: 0;
-    margin-left: 100px; /* Ajuste de margen a la izquierda para moverlo */
+    margin-left: 100px;
 }
-/* Botón de logout */
+
 .header-right .btn {
     padding: 10px 20px;
-    background-color: #333333;  /* El mismo color de fondo que el header */
-    color: #ffffff;  /* Texto blanco para el botón */
+    background-color: #333333;
+    color: #ffffff;
     border: 1px solid #d3d3d3;
     border-radius: 8px;
     cursor: pointer;
     font-size: 1rem;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;  /* Añadimos transición al brillo */
+    transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
 }
 
 .header-right .btn:hover {
-    background-color: #555555;  /* Un tono ligeramente más claro que el color del header */
+    background-color: #555555;
     transform: scale(1.1);
-    box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.6);  /* Brillo suave alrededor */
+    box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.6);
 }
 
 .query-btn, .logout-btn {
-    margin-left: 10px; /* Agrega margen entre los botones */
+    margin-left: 10px;
     padding: 10px 15px;
     font-size: 14px;
     border-radius: 5px;
@@ -70,110 +73,82 @@ body {
 }
 
 .query-btn {
-    background-color: #4CAF50; /* Verde */
+    background-color: #4CAF50;
     color: white;
 }
 
 .query-btn:hover {
-    background-color: #45a049; /* Verde más oscuro */
+    background-color: #45a049;
 }
 
 .logout-btn {
-    background-color: #f44336; /* Rojo */
+    background-color: #f44336;
     color: white;
 }
 
 .logout-btn:hover {
-    background-color: #d32f2f; /* Rojo más oscuro */
+    background-color: #d32f2f;
 }
 
-.main-container h3 {
-    margin-bottom: 20px; /* Espacio entre el encabezado y el contenedor principal */
-    text-align: center; /* Opcional: centra el texto del encabezado */
-    font-size: 2rem;
+.main-container {
+    padding: 20px;
+    flex-grow: 1;
+    background-color: #f0f0f0;
+    box-sizing: border-box;
+    margin-top: 0;
 }
 
-td {
-    position: relative; /* Establece un contenedor de referencia para los mensajes de error */
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
 }
 
-h:message {
-    position: absolute; /* Hace que el mensaje de error no afecte el flujo del diseño */
-    top: 100%; /* Coloca el mensaje justo debajo del contenido del `td` */
-    left: 0; /* Alinea el mensaje con el borde izquierdo del `td` */
-    color: red; /* Mantiene el color del mensaje */
-    font-size: 0.9em; /* Ajusta el tamaño de la fuente si es necesario */
-    white-space: nowrap; /* Evita que el texto se envuelva */
+.form-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.left-column {
+    width: 50%;
+}
+
+.right-column {
+    width: 50%;
+}
+
+h:commandButton {
+    margin-top: 10px;
+    display: block;
+    margin-bottom: 5px;
 }
 
 table {
-    border-collapse: separate; /* Asegura que las celdas mantengan su propio tamaño */
-    border-spacing: 10px; /* Espaciado entre las celdas si es necesario */
+    width: 100%;
 }
 
-
-.main-container h3 {
-    margin-bottom: 0px; /* Reduce el espacio inferior del título */
-    text-align: center; /* Opcional: centra el título */
-}
-.main-container {
-    padding: 20px;
-    margin-top: 10x; /* Espacio entre el encabezado y el contenedor principal */
-    box-sizing: border-box;
-    /* Eliminamos el fondo, sombra y bordes redondeados (ajuste de la respuesta anterior) */
-    background-color: #f0f0f0; 
-    box-shadow: none;
-    border-radius: 0;
-}
-
-.container {
-    display: flex;  /* Flexbox para alinear los bloques */
-    flex-wrap: wrap;  /* Permite que los bloques se ajusten en pantallas pequeñas */
-    justify-content: center;  /* Alinea horizontalmente en el centro */
-    align-items: center;  /* Alinea verticalmente en el centro */
-    width: 100%;  /* El contenedor ocupa el 100% del cuadro principal */
-    gap: 20px;  /* Espacio entre los bloques aumentado ligeramente para balancear */
-}
-
-.block {
-    flex: 1 1 45%;  /* Cada bloque ocupa el 45% del contenedor */
-    margin: 10px;  /* Margen alrededor de los bloques */
-    padding: 20px;
-    text-align: justify;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;  /* Centra verticalmente el contenido dentro del bloque */
-    height: 100%;  /* Asegura que se use todo el espacio disponible del contenedor */
-}
-
-.block-center {
-    margin-top: 10px; /* Reducimos el margen superior para acercarlo al calendario */
-    padding: 10px;    /* Espaciado interno reducido para mayor compacidad */
-    display: flex;
-    justify-content: center; /* Centra horizontalmente los botones */
-    align-items: center; /* Centra verticalmente los botones */
-    gap: 10px; /* Espaciado entre los botones */
-}
-
-/* Estilo del pie de página */
 .footer {
-    background-color: #333333;  /* Gris muy oscuro para el pie de página */
-    padding: 15px 20px; /* Ajustado padding */
+    background-color: #333333;
+    padding: 15px 20px;
     width: 100%;
     box-sizing: border-box;
     display: flex;
-    justify-content: space-between; /* Asegura que el contenido esté distribuido */
-    color: white; /* Letras blancas en el pie de página */
-    font-size: 1rem; /* Tamaño de fuente más pequeño para el pie de página */
+    justify-content: space-between;
+    color: white;
+    font-size: 1rem;
+    position: fixed;
+    bottom: 0;
+    left: 0;
 }
 
 .footer-left,
 .footer-right {
     display: inline-block;
-    text-align: left; /* Alineación izquierda para el texto de la izquierda */
+    text-align: left;
 }
 
 .footer-right {
-    text-align: right; /* Alineación derecha para el texto de la derecha */
+    text-align: right;
 }

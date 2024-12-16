@@ -6,11 +6,10 @@ body {
     padding: 0;
     display: flex;
     flex-direction: column;
-    height: 100vh; /* Ocupa toda la altura de la ventana */
+    height: 100vh;
     background-color: #ffffff;
 }
 
-/* Contenedor de la página */
 .page-container {
     flex: 1;
     display: flex;
@@ -19,55 +18,49 @@ body {
     height: 100%;
 }
 
-/* Estilo del encabezado */
 .header {
-    background-color: #333333; /* Mismo color que el footer */
-    padding: 35px 20px; /* Ajustado para que sea más delgado */
+    background-color: #333333;
+    padding: 35px 20px;
     width: 100%;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    align-items: center; /* Centra el contenido horizontalmente */
-    justify-content: center; /* Centra el contenido verticalmente */
+    align-items: center;
+    justify-content: center;
     color: white;
-    font-size: 1rem; /* Tamaño de texto similar al footer */
-    text-align: center; /* Centra el texto */
-}
-
-.header h1 {
-    font-size: 2rem; /* Ajusta el tamaño del título */
-    margin: 0; /* Elimina márgenes adicionales */
-}
-
-.header p {
-    font-size: 1rem; /* Ajusta el tamaño del subtítulo */
-    margin: 5px 0 0; /* Espaciado inferior entre título y subtítulo */
-}
-
-/* Contenedor principal del formulario */
-.main-container {
-    flex: 1; /* Permite que el contenedor principal crezca y ocupe el espacio disponible */
-    display: flex;
-    flex-direction: column; /* Acomoda el contenido en una columna */
-    justify-content: center; /* Centra el contenido verticalmente */
-    align-items: center; /* Centra el contenido horizontalmente */
-    padding: 20px; /* Espaciado interno */
-    box-sizing: border-box; /* Incluye padding dentro de las dimensiones */
-}
-
-.main-container{
-	background-color: #f0f0f0;
-}
-/* Título "Aukeratu" */
-.main-container h3 {
-    font-size: 2rem; /* Ajustamos el tamaño a más pequeño */
-    margin-bottom: 20px; /* Espaciado inferior */
+    font-size: 1rem;
     text-align: center;
 }
 
-/* Tabla de botones */
+.header h1 {
+    font-size: 2rem;
+    margin: 0;
+}
+
+.header p {
+    font-size: 1rem;
+    margin: 5px 0 0;
+}
+
+.main-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: #f0f0f0;
+}
+
+.main-container h3 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
 table {
-    width: auto; /* Evita que la tabla sea demasiado ancha */
+    width: auto;
     margin-top: 20px;
     text-align: center;
     box-sizing: border-box;
@@ -83,7 +76,7 @@ table .btn {
     font-size: 1.5rem;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     transition: background-color 0.3s, box-shadow 0.3s, transform 0.3s;
-    margin: 10px; /* Espaciado entre botones */
+    margin: 10px;
 }
 
 table .btn:hover {
@@ -92,35 +85,35 @@ table .btn:hover {
     transform: scale(1.1);
 }
 
-/* Estilo del pie de página */
 .footer {
-    background-color: #333333;  /* Gris muy oscuro para el pie de página */
-    padding: 15px 20px; /* Ajustado padding */
+    background-color: #333333;
+    padding: 15px 20px;
     width: 100%;
     box-sizing: border-box;
     display: flex;
-    justify-content: space-between; /* Asegura que el contenido esté distribuido */
-    color: white; /* Letras blancas en el pie de página */
-    font-size: 1rem; /* Tamaño de fuente más pequeño para el pie de página */
+    justify-content: space-between;
+    color: white;
+    font-size: 1rem;
 }
 
 .footer-left,
 .footer-right {
     display: inline-block;
-    text-align: left; /* Alineación izquierda para el texto de la izquierda */
+    text-align: left;
 }
 
 .footer-right {
-    text-align: right; /* Alineación derecha para el texto de la derecha */
+    text-align: right;
 }
+
 .container {
-  display: flex;             /* Activamos flexbox */
-  justify-content: center;   /* Centrado horizontal */
-  align-items: center;       /* Centrado vertical */
-  height: 100px;             /* Definir una altura para centrar verticalmente */
-  width: 100%;               /* Aseguramos que el contenedor ocupe todo el ancho disponible */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    width: 100%;
 }
 
 .login-button {
-  padding: 10px 20px;        /* Tamaño adecuado para el botón */
+    padding: 10px 20px;
 }

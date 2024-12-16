@@ -20,11 +20,6 @@ import businessLogic.BLFacadeImplementation;
 import dataAccess.DataAccess;
 import eredua.domeinua.Ride;
 import nagusia.GertaerakSortu;
-/**
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
-
-import org.primefaces.event.SelectEvent;**/
 
 @ManagedBean
 @ViewScoped
@@ -50,22 +45,17 @@ public class QueryBean {
 
 	@PostConstruct
     public void init() {
-        // Carga inicial de las opciones de depart
         motak = getMotak();
 
-        // Establecer una selección inicial en depart si no está seleccionada
         if (motak != null && !motak.isEmpty()) {
             bidaiNondik = motak.get(0);
         }
 
-        // Cargar opciones iniciales para arrival en base a la opción inicial de depart
         this.updateArrivalCities(null);
         motakBaldintzatua = getMotakBaldintzatua();
     }
 	
 	public List<String> getMotak() {
-		//BLFacade facadeBL=FacadeBean.getBusinessLogic();// Negozioaren logika sortu
-		//List<String> depart=facadeBL.getDepartCities(); //Neg. logikara deitu
 		
 		List<String> depart = db.getAllFroms();
 		return depart;
@@ -99,16 +89,12 @@ public class QueryBean {
 	}
 	
 	public void onEventSelect(SelectEvent event) {
-		//this.mota=(String)event.getObject();
-		
-		//FacesContext.getCurrentInstance().addMessage("nireForm:mezuak",
-		//new FacesMessage("Erabiltzailearen mota (taula):"+mota.getKodea()+"/"+mota.getBidaiNondik()));
 		bidaiNondik = (String)event.getObject();
 	}
 	
     public List<Ride> getBidaiak() {
         if (bidaiNora == null || bidaiNondik == null || data == null) {
-            return new ArrayList<>(); // Si faltan datos, retornar lista vacía
+            return new ArrayList<>();
         }
         System.out.println("Aquiii" + bidaiak.toString());
         return bidaiak;
@@ -123,11 +109,9 @@ public class QueryBean {
         System.out.println("Fecha seleccionada: " + data);
         System.out.println("Ciudades: De " + bidaiNondik + " a " + bidaiNora);
         
-        // Obtener los viajes disponibles para la fecha seleccionada y las ciudades
         bidaiak= db.getRideDetails(bidaiNondik, bidaiNora, data);
         System.out.println(bidaiak.toString());
         
-        // Actualizar la lista de viajes en el Managed Bean
         List<Ride> rideList = new ArrayList<>();
         for (Ride ride : bidaiak) {
             Ride t = new Ride();
@@ -142,8 +126,6 @@ public class QueryBean {
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Rides found: " + bidaiak.size()));
         }
-        
-        // Retornar null para no redirigir a otra página
         return null;
     }
 	
@@ -151,25 +133,17 @@ public class QueryBean {
         
         System.out.println("Driver: " + driver);
         
-        // Obtener los viajes disponibles para la fecha seleccionada y las ciudades
         bidaiak= db.getRidesByUser(driver);
-        System.out.println("Viajes nenekfnag:" + bidaiak.toString());
+        System.out.println("Viajes:" + bidaiak.toString());
         
-        if (bidaiak.isEmpty()) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("No rides found for this user"));
-        } else {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Rides found: " + bidaiak.size()));
-        }
-        
-        // Retornar null para no redirigir a otra página
         return bidaiak;
     }
     
 	public String getDepartCities() {
-		BLFacade facadeBL; // Negozioaren logika gordetzen du
+		BLFacade facadeBL; 
 		facadeBL=new BLFacadeImplementation (new DataAccess());
-		facadeBL=FacadeBean.getBusinessLogic();// Negozioaren logika sortu
-		List<String> etxeak=facadeBL. getDepartCities(); //Neg. logikara deitu
+		facadeBL=FacadeBean.getBusinessLogic();
+		List<String> etxeak=facadeBL. getDepartCities();
 		return etxeak.toString();
 	}
 	

@@ -32,9 +32,7 @@
         </div>
         </h:form>
     </div>
-    
-    <!-- Add p:growl for success messages -->
-    <!-- Agregar required="true" a los inputText -->
+
     <p:growl id="messages" showDetail="true" life="5300" />
     
 <h:form id="nireForm">
@@ -49,16 +47,18 @@
 		            	
 		            </tr>
 		            <tr>
-		            	<td><p:dataTable id="taulaPF" value="#{showNext.bidaiak}" var="item" selectionMode="single" selection="#{showNext.bidaiaR}" border="1" rowKey="#{item.rideNumber}" emptyMessage="No rides">
-							<p:ajax event="rowSelect" listener="#{query.onEventSelect}" update=":nireForm:mezuak"></p:ajax>
-							<f:facet name="header">Rides:</f:facet>
-							<p:column headerText="From">#{item.from}</p:column>
-							<p:column headerText="To">#{item.to}</p:column>
-							<p:column headerText="Price">#{item.price}</p:column>
-							</p:dataTable></td>
+                            <p:dataTable id="taulaPF" value="#{query.bidaiakByID(showNext.driver)}" var="item" selectionMode="single" selection="#{query.bidaiaR}" border="1" rowKey="#{item.rideNumber}" emptyMessage="No rides">
+                                <p:ajax event="rowSelect" listener="#{query.onEventSelect}"></p:ajax>
+                                <f:facet name="header">Created rides</f:facet>
+                                <p:column headerText="From">#{item.from}</p:column>
+                                <p:column headerText="To">#{item.to}</p:column>
+                                <p:column headerText="Date">#{item.date}</p:column>
+                                <p:column headerText="Price">#{item.price}</p:column>
+                            </p:dataTable>
+                        
 		            </tr>
 		            <tr>
-		                <td><h:commandButton class="btn" value="Close" action="return" immediate="true" /></td>
+		                <td><h:commandButton class="btn" value="Select other driver" action="back" immediate="true" /></td>
 		            </tr>
 	        	
 				</table>

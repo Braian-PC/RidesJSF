@@ -11,23 +11,22 @@ public class Ride implements Serializable {
     @GeneratedValue
     private Integer rideNumber;
 
-    @Column(name = "departure")  // Renaming 'from' to 'departure'
+    @Column(name = "departure")
     private String from;
 
-    @Column(name = "destination")  // Renaming 'to' to 'destination'
+    @Column(name = "destination")
     private String to;
 
     private int nPlaces;
     private Date date;
     private float price;
     
-    private String driver;  // El nombre del conductor como String
+    private String driver;
 
     public Ride() {
         super();
     }
 
-    // Constructor con parámetros
     public Ride(String from, String to, Date date, int nPlaces, float price, String driver) {
         super();
         this.from = from;
@@ -35,10 +34,8 @@ public class Ride implements Serializable {
         this.nPlaces = nPlaces;
         this.date = date;
         this.price = price;
-        this.driver = driver;  // Aquí se guarda el nombre del conductor
+        this.driver = driver;
     }
-
-    // Getters y setters
 
     public Integer getRideNumber() {
         return rideNumber;
@@ -93,7 +90,7 @@ public class Ride implements Serializable {
     }
 
     public void setDriver(String driver) {
-        this.driver = driver;  // El nombre del conductor como String
+        this.driver = driver;
     }
 
     @Override

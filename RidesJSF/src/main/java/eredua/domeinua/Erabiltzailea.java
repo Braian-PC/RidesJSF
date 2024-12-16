@@ -23,7 +23,7 @@ return pasahitza; }
 public void setPasahitza(String pasahitza) {
 this.pasahitza = pasahitza; }
 
-public String toString() { // Erabiltzailea
+public String toString() {
 return izena+"/"+pasahitza+"/"+mota;
 }
 
